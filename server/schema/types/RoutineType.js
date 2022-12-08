@@ -4,8 +4,8 @@ const {
   } = require('graphql');
   
   const RoutineType = new GraphQLObjectType({
-    name: 'User',
-    description: 'This represents a User',
+    name: 'Routine',
+    description: 'This represents a Routine object',
     fields: () => ({
       id: {
         type: GraphQLID,

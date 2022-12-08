@@ -14,11 +14,19 @@ const {
     type: UserType,
     description: 'The mutation that allows you to create a new User',
     args: {
-      name: { type: new GraphQLNonNull(GraphQLString) },
+      firstName: { type: new GraphQLNonNull(GraphQLString) },
+      lastName: { type: new GraphQLNonNull(GraphQLString) },
+      email: { type: new GraphQLNonNull(GraphQLString) },
+      password: { type: new GraphQLNonNull(GraphQLString) },
+      // Fortsätt här
     },
     resolve(parent, args) {
       const user = new User({
-        name: args.name
+        firstname: args.firstname,
+        lastname: args.lastname,
+        email: args.email,
+        password: args.password,
+        // Fortsätt här
       });
 
       return user.save();
