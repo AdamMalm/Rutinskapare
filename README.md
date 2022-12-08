@@ -10,12 +10,12 @@ Arbetssätt Cheat Sheet:
   
   Skapa ny branch:
   
-    git checkout -b "BranchName"
+    git checkout -b "NewBranchName"
   
   För att lägga upp ändringar:
   
     git add .
     git commit -m "short description of what changes i made"
-    git push -u origin "BranchName"           <----- om första pushen på den branchen
+    git push -u origin "NewBranchName"           <----- om första pushen på den branchen
     git push                                  <----- efter man pushat första gången på den branchen
     (efter man pushat går man sedan in i github och lägger upp ett pullrequest för BranchName in i develop)
