@@ -1,8 +1,8 @@
-const { createUser } = require('./UserMutation');
+const { createUser } = require("./UserMutation");
 
 const mutationFields = {
-  createUser
-}
+  createUser,
+};
 
 module.exports = {
   mutationFields,

@@ -1,0 +1,8 @@
+package-lock.json
+yarn.lock
+node_modules
+.eslintrc.json
+.env
+.gitignore
+babel.config.js
+tailwind.config.js
