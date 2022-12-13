@@ -42,8 +42,8 @@ const UserType = new GraphQLObjectType({
     routines: {
       type: new GraphQLList(RoutineType),
       resolve(parent) {
-        return parent.routines.filter(() =>
-          Routine.findById("63986848fa426729a9e7095f"),
+        return Array.from(parent.routines, (routineId) =>
+          Routine.findById(routineId),
         );
       },
     },
