@@ -1,9 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import Routine from './screens/Routine';
-
-const cache = new InMemoryCache()
+import { StatusBar } from "expo-status-bar";
+import { View } from "react-native";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import Routine from "./screens/Routine";
 
 const client = new ApolloClient({
   uri: "http://192.168.1.85:5000/graphql",
@@ -15,7 +13,7 @@ export default function App() {
     <>
       <ApolloProvider client={client}>
         <View className="flex-1 items-center justify-center bg-white">
-          <Routine/>
+          <Routine />
           <StatusBar style="auto" />
         </View>
       </ApolloProvider>
