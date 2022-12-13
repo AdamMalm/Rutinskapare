@@ -21,11 +21,11 @@ const UserType = new GraphQLObjectType({
     },
     firstName: {
       type: GraphQLString,
-      resolve: (user) => user.firstname,
+      resolve: (user) => user.firstName,
     },
     lastName: {
       type: GraphQLString,
-      resolve: (user) => user.lastname,
+      resolve: (user) => user.lastName,
     },
     email: {
       type: GraphQLString,
@@ -41,8 +41,10 @@ const UserType = new GraphQLObjectType({
     },
     routines: {
       type: new GraphQLList(RoutineType),
-      resolve() {
-        return Routine.find();
+      resolve(parent) {
+        return parent.routines.filter(() =>
+          Routine.findById("63986848fa426729a9e7095f"),
+        );
       },
     },
     notifications: {

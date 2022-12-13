@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLID } = require("graphql");
+const { GraphQLObjectType, GraphQLID, GraphQLString } = require("graphql");
 
 const RoutineType = new GraphQLObjectType({
   name: "Routine",
@@ -7,6 +7,10 @@ const RoutineType = new GraphQLObjectType({
     id: {
       type: GraphQLID,
       resolve: (routine) => routine.id,
+    },
+    name: {
+      type: GraphQLString,
+      resolve: (routine) => routine.name,
     },
   }),
 });
