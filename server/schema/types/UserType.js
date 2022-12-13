@@ -19,7 +19,7 @@ const UserType = new GraphQLObjectType({
       type: GraphQLID,
       resolve: (user) => user.id,
     },
-    firstName: {
+    name: {
       type: GraphQLString,
       resolve: (user) => user.firstname,
     },
