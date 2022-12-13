@@ -6,7 +6,8 @@ const {
   GraphQLList,
 } = require("graphql");
 
-const { RoutineType, NotificationType } = require("./index");
+const { RoutineType } = require("./RoutineType");
+const { NotificationType } = require("./NotificationType");
 const Routine = require("../../models/Routine");
 const Notification = require("../../models/Notification");
 
