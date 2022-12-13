@@ -30,7 +30,10 @@
   },
   "private": true,
   "lint-staged": {
-    "**/*.{js,jsx}": ["eslint . --fix", "prettier --write ."]
+    "**/*.{js,jsx}": [
+      "eslint . --fix",
+      "prettier --write ."
+    ]
   },
   "husky": {
     "hooks": {

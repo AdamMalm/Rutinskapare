@@ -21,7 +21,6 @@ const Routine = () => {
     <>
       <View>
         <Text>{console.log(data)}hej</Text>
-        <Text>{console.log(data)}hej</Text>
       </View>
     </>
   );
