@@ -49,8 +49,10 @@ const UserType = new GraphQLObjectType({
     },
     notifications: {
       type: new GraphQLList(NotificationType),
-      resolve() {
-        return Notification.find();
+      resolve(parent) {
+        return Array.from(parent.notifications, (notificationId) =>
+          Notification.findById(notificationId),
+        );
       },
     },
   }),
