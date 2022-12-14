@@ -4,6 +4,17 @@ const {
   deleteRoutine,
   updateRoutine,
 } = require("./RoutineMutation");
+const { createTime, updateTime, deleteTime } = require("./TimeMutation");
+const {
+  createHistory,
+  updateHistory,
+  deleteHistory,
+} = require("./HistoryMutation");
+const {
+  createNotification,
+  updateNotification,
+  deleteNotification,
+} = require("./NotificationMutation");
 
 const mutationFields = {
   createUser,
@@ -12,6 +23,15 @@ const mutationFields = {
   createRoutine,
   deleteRoutine,
   updateRoutine,
+  createTime,
+  updateTime,
+  deleteTime,
+  createHistory,
+  updateHistory,
+  deleteHistory,
+  createNotification,
+  updateNotification,
+  deleteNotification,
 };
 
 module.exports = {
