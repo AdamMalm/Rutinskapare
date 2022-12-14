@@ -7,7 +7,7 @@ const TimeSchema = new mongoose.Schema({
   nonSpecificTime: [
     {
       type: String,
-      enum: ["Morning", "Day", "Evening"],
+      enum: ["Morgon", "Dag", "Kväll"],
     },
   ],
 });

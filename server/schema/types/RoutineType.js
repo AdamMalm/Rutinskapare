@@ -15,9 +15,9 @@ const RoutineType = new GraphQLObjectType({
       type: GraphQLID,
       resolve: (routine) => routine.id,
     },
-    name: {
+    title: {
       type: GraphQLString,
-      resolve: (routine) => routine.name,
+      resolve: (routine) => routine.title,
     },
     description: {
       type: GraphQLString,

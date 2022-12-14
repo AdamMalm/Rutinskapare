@@ -1,5 +1,5 @@
 const { userQuery, usersQuery } = require("./UserQuery");
-const { routineQuery, routinesQuery } = require("./RoutineQuerry");
+const { routineQuery, routinesQuery } = require("./RoutineQuery");
 const { timeQuery, timesQuery } = require("./TimeQuery");
 const { historyQuery, historiesQuery } = require("./HistoryQuery");
 const {
