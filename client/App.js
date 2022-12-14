@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+import { GlobalProvider } from "./contexts/GlobalContext";
+
 import RoutinesScreen from "./screens/RoutinesScreen";
 import EditRoutinesScreen from "./screens/EditRoutinesScreen";
 import CreateRoutineScreen from "./screens/CreateRoutineScreen";
@@ -54,27 +56,29 @@ function RoutineTabs() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Dagens rutiner">
-        <Stack.Screen
-          name="Routines"
-          component={RoutineTabs}
-          options={{ title: "Dagens rutiner", headerShown: false }}
-        />
-        <Stack.Screen
-          name="EditRoutines"
-          component={EditRoutinesScreen}
-          options={{
-            title: "Alla rutiner",
-            headerBackTitle: "Tillbaka",
-          }}
-        />
-        <Stack.Screen
-          name="CreateRoutine"
-          component={CreateRoutineScreen}
-          options={{ title: "Skapa ny rutin", headerBackTitle: "Avbryt" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GlobalProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Dagens rutiner">
+          <Stack.Screen
+            name="Routines"
+            component={RoutineTabs}
+            options={{ title: "Dagens rutiner", headerShown: false }}
+          />
+          <Stack.Screen
+            name="EditRoutines"
+            component={EditRoutinesScreen}
+            options={{
+              title: "Alla rutiner",
+              headerBackTitle: "Tillbaka",
+            }}
+          />
+          <Stack.Screen
+            name="CreateRoutine"
+            component={CreateRoutineScreen}
+            options={{ title: "Skapa ny rutin", headerBackTitle: "Avbryt" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GlobalProvider>
   );
 }
