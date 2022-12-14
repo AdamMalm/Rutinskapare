@@ -43,7 +43,7 @@ const updateTime = {
     specificTime: { type: GraphQLString },
     nonSpecificTime: {
       type: new GraphQLEnumType({
-        name: "TimeOfDay",
+        name: "TimeOfDayUpdate",
         values: {
           morning: { value: "Morgon" },
           day: { value: "Dag" },
