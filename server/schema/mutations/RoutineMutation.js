@@ -13,22 +13,22 @@ const createRoutine = {
   type: RoutineType,
   description: "The mutation that allows you to create a new Routine",
   args: {
-    name: { type: new GraphQLNonNull(GraphQLString) },
+    title: { type: new GraphQLNonNull(GraphQLString) },
     description: { type: new GraphQLNonNull(GraphQLString) },
     frequency: {
       type: new GraphQLEnumType({
         name: "RoutineTime",
         values: {
-          monday: { value: "Monday" },
-          tuesday: { value: "Tuesday" },
-          wednesday: { value: "Wednesday" },
-          thursday: { value: "Thursday" },
-          friday: { value: "Friday" },
-          saturday: { value: "Saturday" },
-          sunday: { value: "Sunday" },
+          monday: { value: "Måndag" },
+          tuesday: { value: "Tisdag" },
+          wednesday: { value: "Onsdag" },
+          thursday: { value: "Torsdag" },
+          friday: { value: "Fredag" },
+          saturday: { value: "Lördag" },
+          sunday: { value: "Söndag" },
         },
       }),
-      defaultValue: "Monday",
+      defaultValue: "Måndag",
     },
     highPriority: { type: new GraphQLNonNull(GraphQLBoolean) },
     timeOfDay: { type: GraphQLID },
@@ -38,7 +38,7 @@ const createRoutine = {
   },
   resolve(parent, args) {
     const routine = new Routine({
-      name: args.name,
+      title: args.title,
       description: args.description,
       frequency: args.frequency,
       highPriority: args.highPriority,
@@ -64,20 +64,19 @@ const updateRoutine = {
   type: RoutineType,
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
-    name: { type: GraphQLString },
-    //description: { type: new GraphQLNonNull(GraphQLString) },
+    title: { type: GraphQLString },
     description: { type: GraphQLString },
     frequency: {
       type: new GraphQLEnumType({
         name: "RoutineTimeUpdate",
         values: {
-          monday: { value: "Monday" },
-          tuesday: { value: "Tuesday" },
-          wednesday: { value: "Wednesday" },
-          thursday: { value: "Thursday" },
-          friday: { value: "Friday" },
-          saturday: { value: "Saturday" },
-          sunday: { value: "Sunday" },
+          monday: { value: "Måndag" },
+          tuesday: { value: "Tisdag" },
+          wednesday: { value: "Onsdag" },
+          thursday: { value: "Torsdag" },
+          friday: { value: "Fredag" },
+          saturday: { value: "Lördag" },
+          sunday: { value: "Söndag" },
         },
       }),
       defaultValue: "Monday",
@@ -91,7 +90,7 @@ const updateRoutine = {
       args.id,
       {
         $set: {
-          name: args.name,
+          title: args.title,
           description: args.description,
           frequency: args.frequency,
           highPriority: args.highPriority,
