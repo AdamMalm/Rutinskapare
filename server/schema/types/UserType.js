@@ -42,15 +42,17 @@ const UserType = new GraphQLObjectType({
     routines: {
       type: new GraphQLList(RoutineType),
       resolve(parent) {
-        return parent.routines.filter(() =>
-          Routine.findById("63986848fa426729a9e7095f"),
+        return Array.from(parent.routines, (routineId) =>
+          Routine.findById(routineId),
         );
       },
     },
     notifications: {
       type: new GraphQLList(NotificationType),
-      resolve() {
-        return Notification.find();
+      resolve(parent) {
+        return Array.from(parent.notifications, (notificationId) =>
+          Notification.findById(notificationId),
+        );
       },
     },
   }),
