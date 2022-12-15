@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -13,6 +13,20 @@ import StatisticsScreen from "./screens/StatisticsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Getting theme color hex code for tab icons
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "./tailwind.config.js";
+const fullConfig = resolveConfig(tailwindConfig);
+const primary100 = fullConfig.theme.colors.primary100;
+
+const Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: primary100,
+  },
+};
 
 function RoutineTabs() {
   return (
@@ -32,6 +46,13 @@ function RoutineTabs() {
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: primary100,
+        tabBarLabelStyle: { fontSize: 16, fontWeight: "500" },
+        tabBarStyle: { height: 90 },
+        headerTintColor: primary100,
+        headerTitleStyle: {
+          fontWeight: "bold",
         },
       })}
     >
@@ -57,8 +78,16 @@ function RoutineTabs() {
 export default function App() {
   return (
     <GlobalProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Dagens rutiner">
+      <NavigationContainer theme={Theme}>
+        <Stack.Navigator
+          initialRouteName="Dagens rutiner"
+          screenOptions={{
+            headerTintColor: primary100,
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        >
           <Stack.Screen
             name="Routines"
             component={RoutineTabs}
