@@ -3,7 +3,7 @@ import Button from "../Button";
 
 const Routine = ({ id, title, description, time, isCompleted, ...rest }) => {
   return (
-    <View className="bg-white p-4 rounded shadow-sm" {...rest}>
+    <View className="bg-white p-4 rounded-lg shadow-sm" {...rest}>
       <View>
         <View className="flex-row justify-between">
           <View className="flex-row flex-1 mr-4">
