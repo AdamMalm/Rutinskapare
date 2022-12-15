@@ -5,6 +5,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { GlobalProvider } from "./contexts/GlobalContext";
 
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import Constants from "expo-constants";
+
 import RoutinesScreen from "./screens/RoutinesScreen";
 import EditRoutinesScreen from "./screens/EditRoutinesScreen";
 import CreateRoutineScreen from "./screens/CreateRoutineScreen";
@@ -13,6 +16,18 @@ import StatisticsScreen from "./screens/StatisticsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const { manifest } = Constants;
+
+const api =
+  typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
+    ? manifest.debuggerHost.split(`:`).shift().concat(`5000/graphql`)
+    : `api.example.com`;
+
+const client = new ApolloClient({
+  uri: api,
+  cache: new InMemoryCache(),
+});
 
 function RoutineTabs() {
   return (
@@ -56,29 +71,31 @@ function RoutineTabs() {
 
 export default function App() {
   return (
-    <GlobalProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Dagens rutiner">
-          <Stack.Screen
-            name="Routines"
-            component={RoutineTabs}
-            options={{ title: "Dagens rutiner", headerShown: false }}
-          />
-          <Stack.Screen
-            name="EditRoutines"
-            component={EditRoutinesScreen}
-            options={{
-              title: "Alla rutiner",
-              headerBackTitle: "Tillbaka",
-            }}
-          />
-          <Stack.Screen
-            name="CreateRoutine"
-            component={CreateRoutineScreen}
-            options={{ title: "Skapa ny rutin", headerBackTitle: "Avbryt" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GlobalProvider>
+    <ApolloProvider client={client}>
+      <GlobalProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Dagens rutiner">
+            <Stack.Screen
+              name="Routines"
+              component={RoutineTabs}
+              options={{ title: "Dagens rutiner", headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditRoutines"
+              component={EditRoutinesScreen}
+              options={{
+                title: "Alla rutiner",
+                headerBackTitle: "Tillbaka",
+              }}
+            />
+            <Stack.Screen
+              name="CreateRoutine"
+              component={CreateRoutineScreen}
+              options={{ title: "Skapa ny rutin", headerBackTitle: "Avbryt" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GlobalProvider>
+    </ApolloProvider>
   );
 }
