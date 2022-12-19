@@ -79,7 +79,7 @@ const updateRoutine = {
           sunday: { value: "Söndag" },
         },
       }),
-      defaultValue: "Monday",
+      defaultValue: "Måndag",
     },
     highPriority: { type: GraphQLBoolean },
     timeOfDay: { type: GraphQLID },
