@@ -24,7 +24,7 @@ const RoutineStatisics = ({ title, description, time, frequency, ...rest }) => {
             <Statistic value={"87%"} description="Andel utförda" />
           </View>
           <View>
-            <Statistic value={"4"} description="Flest utförda i rad" />
+            <Statistic value={"4"} description="Utförda i rad" />
           </View>
         </View>
       </View>

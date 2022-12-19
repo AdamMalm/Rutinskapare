@@ -39,11 +39,12 @@ const StatisticsScreen = () => {
   return (
     <Container>
       <Text className="text-xl font-bold color-primary100 mb-2">
-        Rutinstatistik
+        Din rutinstatistik
       </Text>
       <Text className="text-base mb-8">
-        Här kan du se hur väl du följt dina rutiner den här månaden. Du kan
-        också välja att se statistik för tidigare månader.
+        Här kan du se hur väl du följt dina rutiner senaste veckan, månaden
+        eller året. Du kan se hur många procent av de planerade tillfällena du
+        har utfört rutinen, samt hur många gånger i rad du utfört rutinen.
       </Text>
       <PeriodPicker
         className="mb-4"
