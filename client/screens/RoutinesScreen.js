@@ -2,7 +2,6 @@ import { Text, View } from "react-native";
 import Container from "../components/Container";
 import Button from "../components/Button";
 import RoutineList from "../components/RoutineCards/RoutineList";
-import { useGlobalContext } from "../contexts/GlobalContext";
 
 // Ersätt denna lista med data från API
 const routines = [
@@ -29,13 +28,8 @@ const routines = [
 ];
 
 const RoutinesScreen = ({ navigation }) => {
-  const { loading, error, data } = useGlobalContext();
-
   return (
     <Container>
-      {console.log(loading)}
-      {console.log(error)}
-      {console.log(data)}
       <View className="flex flex-column space-y-10">
         <Button
           title="Redigera rutiner (ska flyttas)"

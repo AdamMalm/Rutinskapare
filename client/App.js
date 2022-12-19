@@ -21,11 +21,11 @@ const { manifest } = Constants;
 
 const api =
   typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
-    ? manifest.debuggerHost.split(`:`).shift().concat(`5000/graphql`)
+    ? manifest.debuggerHost.split(`:`).shift().concat(`:5000/graphql`)
     : `api.example.com`;
 
 const client = new ApolloClient({
-  uri: api,
+  uri: "http://" + api,
   cache: new InMemoryCache(),
 });
 
