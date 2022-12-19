@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Feather from "@expo/vector-icons/Feather";
 
 const ButtonGroup = ({
   onPress,
@@ -35,9 +36,12 @@ const ButtonGroup = ({
               : () => onPressSingle(index)
           }
         >
-          <Text className="text-sm color-primary100 font-semibold py-1">
-            {button}
-          </Text>
+          <View className="flex-row space-x-4">
+            <Feather name={button.icon} size={24} color="#144E5A" />
+            <Text className="text-sm color-primary100 font-semibold py-1">
+              {button.label}
+            </Text>
+          </View>
           {selectedIndexes.includes(index) && (
             <Ionicons name="ios-checkmark-sharp" size={24} color="#144E5A" />
           )}
