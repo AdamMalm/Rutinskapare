@@ -13,7 +13,7 @@ const CreateRoutineScreen = () => {
     { label: "Specifik tid", icon: "clock" },
   ];
   return (
-    <Container>
+    <Container extraPadding>
       <Text>Skapa rutin</Text>
       <ButtonGroup
         onPress={setSelectedIndexes}
