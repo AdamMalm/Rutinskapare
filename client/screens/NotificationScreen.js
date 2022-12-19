@@ -29,7 +29,7 @@ const NotificationScreen = () => {
   return (
     <Container>
       <View className="mt-2">
-        <Text className="text-xl text-primary100 font-bold  mb-2">Idag</Text>
+        <Text className="text-xl text-primary100 font-bold mb-2">Idag</Text>
         <NotificationList notifications={notifications} />
 
         <Text className="text-xl text-primary100 font-bold mt-10 mb-2">

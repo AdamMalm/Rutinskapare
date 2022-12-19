@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { ADD_TIME } from "../api/mutations/TimeMutations";
-import { GET_ROUTINES } from "../api/queries/RoutineQuery";
+import { GET_USER_ROUTINES } from "../api/queries/UserQuery";
 
 const GlobalContext = React.createContext();
 
@@ -10,8 +10,8 @@ export const useGlobalContext = () => {
 };
 
 const GlobalProvider = ({ children }) => {
-  const [testString, setTestString] = useState("amazing default sträng");
-  const { loading, error, data } = useQuery(GET_ROUTINES);
+  //const { loadingUser, errorUser, dataUser } = useQuery(GET_USER);
+  const { loading, error, data } = useQuery(GET_USER_ROUTINES);
   const [addTime] = useMutation(ADD_TIME);
 
   const addNewTime = ({ specificTime, nonSpecificTime }) => {
@@ -25,8 +25,6 @@ const GlobalProvider = ({ children }) => {
   };
 
   const value = {
-    testString,
-    setTestString,
     loading,
     error,
     data,

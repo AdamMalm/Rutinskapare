@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import Container from "../components/Container";
 import RoutineList from "../components/RoutineCards/RoutineList";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 // Ersätt denna lista med data från API
 const routines = [
@@ -30,6 +31,8 @@ const routines = [
 ];
 
 const RoutinesScreen = ({ navigation }) => {
+  const { loading, error, data } = useGlobalContext();
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -49,6 +52,9 @@ const RoutinesScreen = ({ navigation }) => {
 
   return (
     <Container>
+      {console.log(data)}
+      {console.log(error)}
+      {console.log(loading)}
       <View className="flex flex-column space-y-10">
         <Text className="text-xl font-bold color-primary100 mb-4">
           Att göra idag
