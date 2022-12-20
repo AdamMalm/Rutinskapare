@@ -27,7 +27,7 @@ const RoutineType = new GraphQLObjectType({
       resolve: (routine) => routine.description,
     },
     frequency: {
-      type: GraphQLString,
+      type: new GraphQLList(GraphQLString),
       resolve: (routine) => routine.frequency,
     },
     highPriority: {

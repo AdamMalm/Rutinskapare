@@ -19,7 +19,7 @@ const EditRoutinesScreen = ({ navigation }) => {
           addNewRoutine({
             title: "test",
             description: "test",
-            frequency: "monday",
+            frequency: ["monday", "friday"],
             highPriority: true,
             specificTime: "",
             nonSpecificTime: "day",
