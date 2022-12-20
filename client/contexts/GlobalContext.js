@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { GET_USER_ROUTINES } from "../api/queries/UserQuery";
 import { ADD_TIME, DELETE_TIME } from "../api/mutations/TimeMutations";
 import { ADD_ROUTINE, DELETE_ROUTINE } from "../api/mutations/RoutineMutations";
-import {
-  GET_USER_ROUTINES,
-  UPDATE_USER_ROUTINES,
-} from "../api/mutations/UserMutations";
+import { UPDATE_USER_ROUTINES } from "../api/mutations/UserMutations";
 
 const GlobalContext = React.createContext();
 
@@ -19,6 +17,7 @@ const GlobalProvider = ({ children }) => {
     loading: loadingRoutines,
     error: errorRoutines,
     data: dataRoutines,
+    refetch: refetchRoutines,
   } = useQuery(GET_USER_ROUTINES);
   const [addTime] = useMutation(ADD_TIME);
   const [addRoutine] = useMutation(ADD_ROUTINE);
@@ -26,13 +25,6 @@ const GlobalProvider = ({ children }) => {
   const [getUserRoutines] = useLazyQuery(GET_USER_ROUTINES);
   const [deleteTime] = useMutation(DELETE_TIME);
   const [deleteRoutine] = useMutation(DELETE_ROUTINE);
-
-  const {
-    loading: loadUserRoutines,
-    error: errorUserRoutines,
-    data: dataUserRoutines,
-    refetch: refetchUserRoutines,
-  } = useQuery(GET_USER_ROUTINES);
 
   const addNewTime = ({ specificTime, nonSpecificTime }) => {
     addTime({
@@ -92,7 +84,7 @@ const GlobalProvider = ({ children }) => {
                   onCompleted: (user) => {
                     console.log(user);
                     console.log(user.updateUser.routines);
-                    refetchUserRoutines();
+                    refetchRoutines();
                   },
                 });
               },
@@ -155,7 +147,7 @@ const GlobalProvider = ({ children }) => {
             console.log("Updated User");
             console.log(user);
             console.log(user.updateUser.routines);
-            refetchUserRoutines();
+            refetchRoutines();
           },
         });
       },
@@ -169,9 +161,6 @@ const GlobalProvider = ({ children }) => {
     addNewTime,
     addNewRoutine,
     removeRoutine,
-    loadUserRoutines,
-    errorUserRoutines,
-    dataUserRoutines,
   };
 
   return (
