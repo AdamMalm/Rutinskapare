@@ -11,8 +11,8 @@ const ADD_TIME = gql`
 `;
 
 const UPDATE_TIME = gql`
-    mutation updateTime($specificTime: String!, $nonSpecificTime: TimeOfDay!) {
-        updateTime(specificTime: $specificTime, nonSpecificTime: $nonSpecificTime) {
+    mutation updateTime($id: ID!, $specificTime: String!, $nonSpecificTime: TimeOfDay!) {
+        updateTime(id: $id, specificTime: $specificTime, nonSpecificTime: $nonSpecificTime) {
             id
             specificTime
             nonSpecificTime
@@ -20,4 +20,14 @@ const UPDATE_TIME = gql`
     }
 `;
 
-export { ADD_TIME, UPDATE_TIME };
+const DELETE_TIME = gql`
+    mutation deleteTime($id: ID!) {
+        deleteTime(id: $id) {
+            id
+            specificTime
+            nonSpecificTime
+        }
+    }
+`;
+
+export { ADD_TIME, UPDATE_TIME, DELETE_TIME };
