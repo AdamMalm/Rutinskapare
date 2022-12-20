@@ -7,20 +7,19 @@ const RoutineSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  frequency: [
-    {
-      type: String,
-      enum: [
-        "Måndag",
-        "Tisdag",
-        "Onsdag",
-        "Torsdag",
-        "Fredag",
-        "Lördag",
-        "Söndag",
-      ],
-    },
-  ],
+  frequency: {
+    type: String,
+    enum: [
+      "Måndag",
+      "Tisdag",
+      "Onsdag",
+      "Torsdag",
+      "Fredag",
+      "Lördag",
+      "Söndag",
+    ],
+  },
+
   highPriority: {
     type: Boolean,
   },

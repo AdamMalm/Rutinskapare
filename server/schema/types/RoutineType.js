@@ -6,6 +6,8 @@ const {
 } = require("graphql");
 const Time = require("../../models/Time");
 const History = require("../../models/History");
+const { TimeType } = require("./TimeType");
+const { HistoryType } = require("./HistoryType");
 
 const RoutineType = new GraphQLObjectType({
   name: "Routine",
@@ -32,11 +34,11 @@ const RoutineType = new GraphQLObjectType({
       resolve: (routine) => routine.highPriority,
     },
     timeOfDay: {
-      type: GraphQLID,
+      type: TimeType,
       resolve: (routine) => Time.findById(routine.timeOfDay),
     },
     historyOfCompletion: {
-      type: GraphQLID,
+      type: HistoryType,
       resolve: (routine) => History.findById(routine.historyOfCompletion),
     },
   }),
