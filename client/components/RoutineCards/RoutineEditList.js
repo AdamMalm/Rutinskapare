@@ -12,6 +12,7 @@ const RoutineEditList = ({ routines }) => {
           description={routine.description}
           time={routine.time}
           frequency={routine.frequency}
+          highPriority={routine.highPriority}
         />
       ))}
     </View>

@@ -1,9 +1,23 @@
 import { Text, View } from "react-native";
 import Button from "../Button";
+import PrioChip from "../PrioChip";
 
-const Routine = ({ id, title, description, time, isCompleted, ...rest }) => {
+const Routine = ({
+  id,
+  title,
+  description,
+  time,
+  isCompleted,
+  highPriority,
+  ...rest
+}) => {
   return (
     <View className="bg-white p-4 rounded-lg shadow-sm" {...rest}>
+      {highPriority && (
+        <View className="flex-row">
+          <PrioChip />
+        </View>
+      )}
       <View>
         <View className="flex-row justify-between">
           <View className="flex-row flex-1 mr-4">
