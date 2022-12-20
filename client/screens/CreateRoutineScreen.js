@@ -13,6 +13,14 @@ const CreateRoutineScreen = () => {
     { label: "Kväll", icon: "moon" },
     { label: "Specifik tid", icon: "clock" },
   ];
+
+  const items = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Pear", value: "pear" },
+    { label: "Orange", value: "orange" },
+  ];
+
   return (
     <Container extraPadding>
       <View className="flex flex-col mt-2 space-y-10">
@@ -21,12 +29,14 @@ const CreateRoutineScreen = () => {
           placeholder="Välj kategori"
           zIndex={3000}
           zIndexInverse={1000}
+          list={items}
         />
         <DropdownOpt
           name="Rutin"
           placeholder="Välj rutin"
           zIndex={2000}
           zIndexInverse={2000}
+          list={items}
         />
 
         <Text>Skapa rutin</Text>
