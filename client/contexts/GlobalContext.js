@@ -102,12 +102,10 @@ const GlobalProvider = ({ children }) => {
         var routineToRemove = userRoutines.user.routines.filter(
           (routine) => routine.id == routineId,
         )[0];
-        console.log(routineToRemove);
-        console.log(routineToRemove.timeOfDay);
-        console.log(routineToRemove.timeOfDay.id);
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+        if (routineToRemove == undefined) return;
+
         var timeOfDayId = routineToRemove.timeOfDay.id;
-        console.log(timeOfDayId);
 
         deleteTime({
           variables: {

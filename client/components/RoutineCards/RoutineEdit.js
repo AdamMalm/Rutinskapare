@@ -1,7 +1,9 @@
 import { Text, View } from "react-native";
+import { useGlobalContext } from "../../contexts/GlobalContext";
 import Button from "../Button";
 
 const RoutineEdit = ({ id, title, description, time, frequency, ...rest }) => {
+  const { removeRoutine } = useGlobalContext();
   return (
     <View className="bg-white p-4 rounded-lg shadow-sm" {...rest}>
       <View className="flex flex-column space-y-4">
@@ -21,7 +23,7 @@ const RoutineEdit = ({ id, title, description, time, frequency, ...rest }) => {
         title="Radera"
         type="text"
         className="mt-2"
-        onPress={() => console.log("Radera call API", +id)}
+        onPress={() => removeRoutine(id)}
       />
     </View>
   );
