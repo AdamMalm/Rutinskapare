@@ -3,6 +3,7 @@ const {
   GraphQLID,
   GraphQLString,
   GraphQLBoolean,
+  GraphQLList,
 } = require("graphql");
 const Time = require("../../models/Time");
 const History = require("../../models/History");
@@ -38,8 +39,12 @@ const RoutineType = new GraphQLObjectType({
       resolve: (routine) => Time.findById(routine.timeOfDay),
     },
     historyOfCompletion: {
-      type: HistoryType,
-      resolve: (routine) => History.findById(routine.historyOfCompletion),
+      type: new GraphQLList(HistoryType),
+      resolve(parent) {
+        return Array.from(parent.historyOfCompletion, (historyId) =>
+          History.findById(historyId),
+        );
+      },
     },
   }),
 });

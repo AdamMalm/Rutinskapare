@@ -5,34 +5,10 @@ import RoutineList from "../components/RoutineCards/RoutineList";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
-// Ersätt denna lista med data från API
-const routines = [
-  {
-    id: 1,
-    title: "test1",
-    description:
-      "Här är en liten beskrivning som är lite längre så att vi kan se flera rader",
-    time: "9.00",
-    isCompleted: true,
-  },
-  {
-    id: 2,
-    title: "test2",
-    description: "Beskrivning ja0",
-    time: "9.00",
-    isCompleted: false,
-  },
-  {
-    id: 3,
-    title: "test3",
-    time: "9.00",
-    isCompleted: true,
-  },
-];
-
 const RoutinesScreen = ({ navigation }) => {
-  const { loading, error, data } = useGlobalContext();
+  const { loadingRoutines, errorRoutines, dataRoutines } = useGlobalContext();
 
+  // Behövs verkligen useEffect här?
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -50,24 +26,37 @@ const RoutinesScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
+  // Lägg till laddningsanimation?
+  if (loadingRoutines) return null;
+  if (errorRoutines) return console.log(errorRoutines);
+
   return (
     <Container>
-      {console.log(data)}
-      {console.log(error)}
-      {console.log(loading)}
       <View className="flex flex-column space-y-10">
         <Text className="text-xl font-bold color-primary100 mb-4">
           Att göra idag
         </Text>
         <RoutineList
-          routines={routines.filter((routine) => !routine.isCompleted)}
+          routines={dataRoutines.user.routines.filter(
+            (routine) =>
+              !routine.historyOfCompletion[0] ||
+              !routine.historyOfCompletion[
+                routine.historyOfCompletion.length - 1
+              ].completed,
+          )}
         />
 
         <Text className="text-xl font-bold color-primary100 mb-4">
           Utfört idag
         </Text>
         <RoutineList
-          routines={routines.filter((routine) => routine.isCompleted)}
+          routines={dataRoutines.user.routines.filter(
+            (routine) =>
+              routine.historyOfCompletion[0] &&
+              routine.historyOfCompletion[
+                routine.historyOfCompletion.length - 1
+              ].completed,
+          )}
         />
       </View>
     </Container>

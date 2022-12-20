@@ -14,7 +14,7 @@ const createRoutine = {
   description: "The mutation that allows you to create a new Routine",
   args: {
     title: { type: new GraphQLNonNull(GraphQLString) },
-    description: { type: new GraphQLNonNull(GraphQLString) },
+    description: { type: GraphQLString },
     frequency: {
       type: new GraphQLEnumType({
         name: "RoutineTime",

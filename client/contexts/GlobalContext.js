@@ -11,7 +11,11 @@ export const useGlobalContext = () => {
 
 const GlobalProvider = ({ children }) => {
   //const { loadingUser, errorUser, dataUser } = useQuery(GET_USER);
-  const { loading, error, data } = useQuery(GET_USER_ROUTINES);
+  const {
+    loading: loadingRoutines,
+    error: errorRoutines,
+    data: dataRoutines,
+  } = useQuery(GET_USER_ROUTINES);
   const [addTime] = useMutation(ADD_TIME);
 
   const addNewTime = ({ specificTime, nonSpecificTime }) => {
@@ -25,9 +29,9 @@ const GlobalProvider = ({ children }) => {
   };
 
   const value = {
-    loading,
-    error,
-    data,
+    loadingRoutines,
+    errorRoutines,
+    dataRoutines,
     addNewTime,
   };
 
