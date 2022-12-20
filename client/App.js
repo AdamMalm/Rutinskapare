@@ -48,8 +48,8 @@ function RoutineTabs() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: primary100,
-        tabBarLabelStyle: { fontSize: 16, fontWeight: "500" },
-        tabBarStyle: { height: 90 },
+        tabBarLabelStyle: { fontSize: 16, fontWeight: "500", flex: 1 },
+        tabBarStyle: { height: 100 },
         headerTintColor: primary100,
         headerTitleStyle: {
           fontWeight: "bold",
