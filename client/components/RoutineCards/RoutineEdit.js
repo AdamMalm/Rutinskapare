@@ -8,7 +8,7 @@ const RoutineEdit = ({
   description,
   time,
   frequency,
-  highPriority = true,
+  highPriority,
   ...rest
 }) => {
   return (
