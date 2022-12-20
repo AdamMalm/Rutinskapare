@@ -19,7 +19,6 @@ const RoutineSchema = new mongoose.Schema({
       "Söndag",
     ],
   },
-
   highPriority: {
     type: Boolean,
   },

@@ -19,14 +19,14 @@ const Notification = ({ isReminder, routineName, time, ...rest }) => {
 
   return (
     <View
-      className="p-4 bg-white rounded flex flex-row h-20 shadow-sm "
+      className="p-4 bg-white rounded flex flex-row h-20 shadow-sm"
       {...rest}
     >
       <View className={bgStyle}>
-        <Ionicons name={iconName} size={"40px"} color={iconColor} />
+        <Ionicons name={iconName} size={40} color={iconColor} />
       </View>
       <View className="flex flex-col grow">
-        <View className="flex flex-row justify-between ">
+        <View className="flex flex-row justify-between">
           <Text className="text-sm">{text}</Text>
           <Text className="text-sm">{time}</Text>
         </View>

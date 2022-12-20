@@ -113,7 +113,7 @@ export default function App() {
               name="EditRoutines"
               component={EditRoutinesScreen}
               options={{
-                title: "Alla rutiner",
+                title: "Ändra rutiner",
                 headerBackTitle: "Tillbaka",
               }}
             />
