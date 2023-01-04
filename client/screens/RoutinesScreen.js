@@ -59,7 +59,7 @@ const RoutinesScreen = ({ navigation }) => {
       <Container>
         <View className="flex flex-col items-center">
           <Text className="text-base font-bold text-center color-primary100 mt-4">
-            Du har inga rutiner att utföra idag.
+            Du har inga rutiner att utföra idag
           </Text>
           <Text className="text-base mt-2 text-center">
             Redigera eller lägg till rutiner genom att klicka på kugghjulet uppe
