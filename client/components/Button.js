@@ -22,6 +22,10 @@ const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
       hexColor = "#144E5A";
       textColor = "text-primary100";
       break;
+    case "disabled":
+      pressableTypeStyle = "bg-darkgray";
+      textColor = "text-white";
+      break;
     default:
       break;
   }

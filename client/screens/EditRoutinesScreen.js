@@ -4,28 +4,12 @@ import RoutineEditList from "../components/RoutineCards/RoutineEditList";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 const EditRoutinesScreen = ({ navigation }) => {
-  const { loadingRoutines, errorRoutines, dataRoutines, addNewRoutine } =
-    useGlobalContext();
+  const { loadingRoutines, errorRoutines, dataRoutines } = useGlobalContext();
   if (loadingRoutines) return null;
   if (errorRoutines) return console.log(errorRoutines);
 
   return (
     <Container extraPadding>
-      <Button
-        title="Skapa ny rutin (FOR TESTING)"
-        className="mb-4"
-        iconName="ios-add"
-        onPress={() =>
-          addNewRoutine({
-            title: "test",
-            description: "test",
-            frequency: ["monday", "friday"],
-            highPriority: true,
-            specificTime: "",
-            nonSpecificTime: "day",
-          })
-        }
-      />
       <Button
         title="Skapa ny rutin"
         iconName="ios-add"

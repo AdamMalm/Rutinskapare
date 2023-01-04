@@ -157,7 +157,11 @@ const CreateRoutineScreen = () => {
           isPrioritised={isPrioritised}
           setPrioritised={toggleSwitch}
         />
-        <Button onPress={createRoutine} title={"Spara rutin"}></Button>
+        {routineName === "" || selectedFreqIndexes[0] === null ? (
+          <Button type="disabled" title={"Fyll i rutininformation"}></Button>
+        ) : (
+          <Button onPress={createRoutine} title={"Spara rutin"}></Button>
+        )}
       </View>
     </Container>
   );
