@@ -34,6 +34,7 @@ const DropdownOpt = ({
           shadowRadius: 2,
           shadowOffset: { width: 0, height: 1 },
           borderRadius: 4,
+          paddingHorizontal: 16,
         }}
         dropDownContainerStyle={{
           borderColor: "white",

@@ -80,7 +80,7 @@ export default function App() {
     <GlobalProvider>
       <NavigationContainer theme={Theme}>
         <Stack.Navigator
-          initialRouteName="Dagens rutiner"
+          initialRouteName="Routines"
           screenOptions={{
             headerTintColor: primary100,
             headerTitleStyle: {

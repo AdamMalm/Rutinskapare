@@ -2,49 +2,120 @@ import { Text, View } from "react-native";
 import { useState } from "react";
 import Container from "../components/Container";
 import ButtonGroup from "../components/ButtonGroup";
-import DropdownOpt from "../components/DropdownOpt";
+import TextField from "../components/TextField";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import Button from "../components/Button";
+import Prioritet from "../components/Prioritet";
 
 const CreateRoutineScreen = () => {
-  // Demo på hur buttongroup används
-  const [selectedIndexes, setSelectedIndexes] = useState([]);
-  const buttons = [
+  const [selectedTimeIndexes, setSelectedTimeIndexes] = useState([]);
+  const [selectedFreqIndexes, setSelectedFreqIndexes] = useState([]);
+  const [selectedDayIndexes, setSelectedDayIndexes] = useState([]);
+  const [routineName, setroutineNameText] = useState("");
+  const [description, setDescriptionText] = useState("");
+  const [time, setTime] = useState(new Date());
+  const [isPrioritised, setPrioritised] = useState(false);
+  const toggleSwitch = () => setPrioritised((previousState) => !previousState);
+
+  const frivillig = "(Frivillig)";
+  const timeButtons = [
     { label: "Morgon", icon: "sunrise" },
     { label: "Dag", icon: "sun" },
     { label: "Kväll", icon: "moon" },
     { label: "Specifik tid", icon: "clock" },
   ];
-
-  const items = [
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-    { label: "Pear", value: "pear" },
-    { label: "Orange", value: "orange" },
+  const frekvensButtons = [
+    { label: "Varje dagar" },
+    { label: "Specifika dagar" },
   ];
+  const dayButtons = [
+    { label: "Måndag" },
+    { label: "Tisdag" },
+    { label: "Onsdag" },
+    { label: "Torsdag" },
+    { label: "Fredag" },
+    { label: "Lördag" },
+    { label: "Söndag" },
+  ];
+
+  function onTimeSelected(event, selectedTime) {
+    setTime(selectedTime);
+  }
+
+  function createRoutine() {
+    //do something here
+  }
 
   return (
     <Container extraPadding>
       <View className="flex flex-col mt-2 space-y-10">
-        <DropdownOpt
-          name="Kategori"
-          placeholder="Välj kategori"
-          zIndex={3000}
-          zIndexInverse={1000}
-          list={items}
+        <TextField
+          name={"Rutinnamn"}
+          placeholder={"Exempelvis: Medicin"}
+          onChange={setroutineNameText}
+          text={routineName}
         />
-        <DropdownOpt
-          name="Rutin"
-          placeholder="Välj rutin"
-          zIndex={2000}
-          zIndexInverse={2000}
-          list={items}
+        <TextField
+          name={"Beskrivning"}
+          placeholder={"Exempelvis: Ta två alvedon"}
+          onChange={setDescriptionText}
+          text={description}
         />
-
-        <Text>Skapa rutin</Text>
-        <ButtonGroup
-          onPress={setSelectedIndexes}
-          buttons={buttons}
-          selectedIndexes={selectedIndexes}
+        <View>
+          <View className="flex flex-row items-center">
+            <Text className="text-xl font-bold color-primary100 mb-6">Tid</Text>
+            <Text className="text-sm color-black mb-6 ml-2">{frivillig}</Text>
+          </View>
+          <ButtonGroup
+            onPress={setSelectedTimeIndexes}
+            buttons={timeButtons}
+            selectedIndexes={selectedTimeIndexes}
+          />
+        </View>
+        {selectedTimeIndexes[0] === 3 ? (
+          <View className="flex flex-row items-center justify-between mx-2">
+            <Text className="text-lg font-bold color-primary100">Ange tid</Text>
+            <DateTimePicker
+              mode="time"
+              is24Hour={true}
+              value={time}
+              onChange={onTimeSelected}
+              style={{ alignSelf: "center", fontSize: 16 }}
+            />
+          </View>
+        ) : (
+          <></>
+        )}
+        <View>
+          <Text className="text-xl font-bold color-primary100 mb-4">
+            Frekvens
+          </Text>
+          <ButtonGroup
+            onPress={setSelectedFreqIndexes}
+            buttons={frekvensButtons}
+            selectedIndexes={selectedFreqIndexes}
+          />
+          {selectedFreqIndexes[0] === 1 ? (
+            <View>
+              <Text className="text-base font-bold color-primary100 mt-10 mb-4">
+                Välj dagar
+              </Text>
+              <ButtonGroup
+                onPress={setSelectedDayIndexes}
+                buttons={dayButtons}
+                selectedIndexes={selectedDayIndexes}
+                multipleChoice={true}
+              />
+            </View>
+          ) : (
+            <></>
+          )}
+        </View>
+        <Prioritet
+          isPrioritised={isPrioritised}
+          setPrioritised={toggleSwitch}
         />
+        <Button onPress={createRoutine} title={"Spara rutin"}></Button>
       </View>
     </Container>
   );
