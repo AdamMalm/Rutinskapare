@@ -1,13 +1,13 @@
 import { View } from "react-native";
-import RoutineStatisics from "./RoutineStatisics";
+import RoutineStatistic from "./RoutineStatistic";
 
-const RoutineStatisticsList = ({ routineStatisics }) => {
+const RoutineStatisticsList = ({ routineStatistics }) => {
   return (
     <View className="flex flex-column space-y-4">
-      {routineStatisics.map((routineStatisic) => (
-        <RoutineStatisics
-          key={routineStatisic.id}
-          routineStatisic={routineStatisic}
+      {routineStatistics.map((routineStatistic) => (
+        <RoutineStatistic
+          key={routineStatistic.id}
+          routineStatistic={routineStatistic}
         />
       ))}
     </View>

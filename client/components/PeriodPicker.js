@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const PeriodPicker = ({ active, options, setActive, ...rest }) => {
+const PeriodPicker = ({ activePeriod, options, setActivePeriod, ...rest }) => {
   return (
     <View className="flex flex-row space-x-4 mx-auto" {...rest}>
       <Ionicons.Button
@@ -11,14 +11,14 @@ const PeriodPicker = ({ active, options, setActive, ...rest }) => {
         underlayColor="transparent"
         name="ios-chevron-back"
         size={24}
-        color={options.length - 1 <= active ? "lightgray" : "black"}
-        disabled={options.length - 1 <= active}
+        color={activePeriod === 0 ? "lightgray" : "black"}
+        disabled={activePeriod === 0}
         onPress={() => {
-          setActive(active + 1);
+          setActivePeriod(activePeriod - 1);
         }}
       />
       <Text className="my-auto text-sm w-40 text-center font-medium color-primary100">
-        {options[active].label}
+        {options[activePeriod].label}
       </Text>
       <Ionicons.Button
         backgroundColor="transparent"
@@ -27,10 +27,10 @@ const PeriodPicker = ({ active, options, setActive, ...rest }) => {
         underlayColor="transparent"
         name="ios-chevron-forward"
         size={24}
-        color={active === 0 ? "lightgray" : "black"}
-        disabled={active === 0}
+        color={options.length - 1 <= activePeriod ? "lightgray" : "black"}
+        disabled={options.length - 1 <= activePeriod}
         onPress={() => {
-          setActive(active - 1);
+          setActivePeriod(activePeriod + 1);
         }}
       />
     </View>
