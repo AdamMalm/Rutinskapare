@@ -7,10 +7,7 @@ const RoutineStatisticsList = ({ routineStatisics }) => {
       {routineStatisics.map((routineStatisic) => (
         <RoutineStatisics
           key={routineStatisic.id}
-          title={routineStatisic.title}
-          description={routineStatisic.description}
-          time={routineStatisic.time}
-          frequency={routineStatisic.frequency}
+          routineStatisic={routineStatisic}
         />
       ))}
     </View>
