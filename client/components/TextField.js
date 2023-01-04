@@ -2,7 +2,7 @@ import { Text, View, TextInput, StyleSheet } from "react-native";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config";
 
-const TextField = ({ name, placeholder, ...rest }) => {
+const TextField = ({ name, placeholder, onChange, ...rest }) => {
   const fullConfig = resolveConfig(tailwindConfig);
   const darkgray = fullConfig.theme.colors.darkgray;
   const frivillig = "(Frivillig)";
@@ -22,6 +22,7 @@ const TextField = ({ name, placeholder, ...rest }) => {
             placeholderTextColor={darkgray}
             multiline={true}
             style={styleBig}
+            onChangeText={(newtext) => onChange(newtext)}
           />
         </View>
       ) : (
@@ -34,6 +35,7 @@ const TextField = ({ name, placeholder, ...rest }) => {
             placeholderTextColor={darkgray}
             multiline={false}
             style={styleSmall}
+            onChangeText={(newtext) => onChange(newtext)}
           />
         </View>
       )}
