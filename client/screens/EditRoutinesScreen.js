@@ -2,12 +2,14 @@ import Container from "../components/Container";
 import Button from "../components/Button";
 import RoutineEditList from "../components/RoutineCards/RoutineEditList";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const EditRoutinesScreen = ({ navigation }) => {
   const { loadingRoutines, errorRoutines, dataRoutines, addNewRoutine } =
     useGlobalContext();
-  if (loadingRoutines) return null;
-  if (errorRoutines) return console.log(errorRoutines);
+  if (loadingRoutines) return <Loading />;
+  if (errorRoutines) return <Error error={errorRoutines} />;
 
   return (
     <Container extraPadding>

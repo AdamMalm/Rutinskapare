@@ -152,6 +152,25 @@ const GlobalProvider = ({ children }) => {
     });
   };
 
+  const swedishDaylist = [
+    "Söndag",
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag",
+  ];
+
+  const getTodaysRoutines = () => {
+    let today = new Date();
+    let day = today.getDay();
+    let todaysRoutines = dataRoutines.user.routines.filter((routine) =>
+      routine.frequency.includes(swedishDaylist[day]),
+    );
+    return todaysRoutines;
+  };
+
   const value = {
     loadingRoutines,
     errorRoutines,
@@ -159,6 +178,7 @@ const GlobalProvider = ({ children }) => {
     addNewTime,
     addNewRoutine,
     removeRoutine,
+    getTodaysRoutines,
   };
 
   return (
