@@ -5,6 +5,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { GlobalProvider } from "./contexts/GlobalContext";
 
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import Constants from "expo-constants";
+
 import RoutinesScreen from "./screens/RoutinesScreen";
 import EditRoutinesScreen from "./screens/EditRoutinesScreen";
 import CreateRoutineScreen from "./screens/CreateRoutineScreen";
@@ -13,6 +16,18 @@ import StatisticsScreen from "./screens/StatisticsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const { manifest } = Constants;
+
+const api =
+  typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
+    ? manifest.debuggerHost.split(`:`).shift().concat(`:5000/graphql`)
+    : `api.example.com`;
+
+const client = new ApolloClient({
+  uri: "http://" + api,
+  cache: new InMemoryCache(),
+});
 
 // Getting theme color hex code for tab icons
 import resolveConfig from "tailwindcss/resolveConfig";
@@ -77,37 +92,39 @@ function RoutineTabs() {
 
 export default function App() {
   return (
-    <GlobalProvider>
-      <NavigationContainer theme={Theme}>
-        <Stack.Navigator
-          initialRouteName="Dagens rutiner"
-          screenOptions={{
-            headerTintColor: primary100,
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="Routines"
-            component={RoutineTabs}
-            options={{ title: "Dagens rutiner", headerShown: false }}
-          />
-          <Stack.Screen
-            name="EditRoutines"
-            component={EditRoutinesScreen}
-            options={{
-              title: "Ändra rutiner",
-              headerBackTitle: "Tillbaka",
+    <ApolloProvider client={client}>
+      <GlobalProvider>
+        <NavigationContainer theme={Theme}>
+          <Stack.Navigator
+            initialRouteName="Dagens rutiner"
+            screenOptions={{
+              headerTintColor: primary100,
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
             }}
-          />
-          <Stack.Screen
-            name="CreateRoutine"
-            component={CreateRoutineScreen}
-            options={{ title: "Skapa ny rutin", headerBackTitle: "Avbryt" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GlobalProvider>
+          >
+            <Stack.Screen
+              name="Routines"
+              component={RoutineTabs}
+              options={{ title: "Dagens rutiner", headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditRoutines"
+              component={EditRoutinesScreen}
+              options={{
+                title: "Ändra rutiner",
+                headerBackTitle: "Tillbaka",
+              }}
+            />
+            <Stack.Screen
+              name="CreateRoutine"
+              component={CreateRoutineScreen}
+              options={{ title: "Skapa ny rutin", headerBackTitle: "Avbryt" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GlobalProvider>
+    </ApolloProvider>
   );
 }

@@ -56,8 +56,8 @@ const updateUser = {
     email: { type: GraphQLString },
     password: { type: GraphQLString },
     hasCompletedOnBoarding: { type: GraphQLBoolean },
-    routines: { type: GraphQLID },
-    notifications: { type: GraphQLID },
+    routines: { type: new GraphQLList(GraphQLID) },
+    notifications: { type: new GraphQLList(GraphQLID) },
   },
   resolve(parent, args) {
     return User.findByIdAndUpdate(

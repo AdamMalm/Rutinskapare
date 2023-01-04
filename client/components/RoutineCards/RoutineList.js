@@ -11,7 +11,10 @@ const RoutineList = ({ routines }) => {
           title={routine.title}
           description={routine.description}
           time={routine.time}
-          isCompleted={routine.isCompleted}
+          isCompleted={
+            routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
+              ?.completed
+          }
           highPriority={routine.highPriority}
         />
       ))}

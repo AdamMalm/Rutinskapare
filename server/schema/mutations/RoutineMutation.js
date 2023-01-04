@@ -14,20 +14,22 @@ const createRoutine = {
   description: "The mutation that allows you to create a new Routine",
   args: {
     title: { type: new GraphQLNonNull(GraphQLString) },
-    description: { type: new GraphQLNonNull(GraphQLString) },
+    description: { type: GraphQLString },
     frequency: {
-      type: new GraphQLEnumType({
-        name: "RoutineTime",
-        values: {
-          monday: { value: "Måndag" },
-          tuesday: { value: "Tisdag" },
-          wednesday: { value: "Onsdag" },
-          thursday: { value: "Torsdag" },
-          friday: { value: "Fredag" },
-          saturday: { value: "Lördag" },
-          sunday: { value: "Söndag" },
-        },
-      }),
+      type: new GraphQLList(
+        new GraphQLEnumType({
+          name: "RoutineTime",
+          values: {
+            monday: { value: "Måndag" },
+            tuesday: { value: "Tisdag" },
+            wednesday: { value: "Onsdag" },
+            thursday: { value: "Torsdag" },
+            friday: { value: "Fredag" },
+            saturday: { value: "Lördag" },
+            sunday: { value: "Söndag" },
+          },
+        }),
+      ),
       defaultValue: "Måndag",
     },
     highPriority: { type: new GraphQLNonNull(GraphQLBoolean) },
@@ -67,19 +69,21 @@ const updateRoutine = {
     title: { type: GraphQLString },
     description: { type: GraphQLString },
     frequency: {
-      type: new GraphQLEnumType({
-        name: "RoutineTimeUpdate",
-        values: {
-          monday: { value: "Måndag" },
-          tuesday: { value: "Tisdag" },
-          wednesday: { value: "Onsdag" },
-          thursday: { value: "Torsdag" },
-          friday: { value: "Fredag" },
-          saturday: { value: "Lördag" },
-          sunday: { value: "Söndag" },
-        },
-      }),
-      defaultValue: "Monday",
+      type: new GraphQLList(
+        new GraphQLEnumType({
+          name: "RoutineTimeUpdate",
+          values: {
+            monday: { value: "Måndag" },
+            tuesday: { value: "Tisdag" },
+            wednesday: { value: "Onsdag" },
+            thursday: { value: "Torsdag" },
+            friday: { value: "Fredag" },
+            saturday: { value: "Lördag" },
+            sunday: { value: "Söndag" },
+          },
+        }),
+      ),
+      defaultValue: "Måndag",
     },
     highPriority: { type: GraphQLBoolean },
     timeOfDay: { type: GraphQLID },
