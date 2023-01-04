@@ -12,7 +12,6 @@ export const useGlobalContext = () => {
 };
 
 const GlobalProvider = ({ children }) => {
-  //const { loadingUser, errorUser, dataUser } = useQuery(GET_USER);
   const {
     loading: loadingRoutines,
     error: errorRoutines,
@@ -51,7 +50,6 @@ const GlobalProvider = ({ children }) => {
       },
       onError: (error) => console.log(error),
       onCompleted: (timeOfDay) => {
-        console.log(timeOfDay);
         addRoutine({
           variables: {
             title: title,
@@ -62,8 +60,6 @@ const GlobalProvider = ({ children }) => {
           },
           onError: (error) => console.log(error),
           onCompleted: (routine) => {
-            console.log(routine);
-            console.log("------------");
             getUserRoutines({
               onError: (error) => console.log(error),
               onCompleted: (userRoutines) => {
@@ -75,15 +71,12 @@ const GlobalProvider = ({ children }) => {
                 if (!routines.includes(routine.createRoutine.id)) {
                   routines.push(routine.createRoutine.id);
                 }
-                console.log(routines);
                 updateUserRoutines({
                   variables: {
                     routines: routines,
                   },
                   onError: (error) => console.log(error),
-                  onCompleted: (user) => {
-                    console.log(user);
-                    console.log(user.updateUser.routines);
+                  onCompleted: () => {
                     refetchRoutines();
                   },
                 });
@@ -112,10 +105,6 @@ const GlobalProvider = ({ children }) => {
             id: timeOfDayId,
           },
           onError: (error) => console.log(error),
-          onCompleted: (timeOfDayData) => {
-            console.log("Deleted TimeOfDay");
-            console.log(timeOfDayData);
-          },
         });
 
         deleteRoutine({
@@ -123,10 +112,6 @@ const GlobalProvider = ({ children }) => {
             id: routineId,
           },
           onError: (error) => console.log(error),
-          onCompleted: (routineData) => {
-            console.log("Deleted Routine");
-            console.log(routineData);
-          },
         });
 
         var routines = [];
@@ -135,16 +120,12 @@ const GlobalProvider = ({ children }) => {
             routines.push(routine.id);
           }
         });
-        console.log(routines);
         updateUserRoutines({
           variables: {
             routines: routines,
           },
           onError: (error) => console.log(error),
-          onCompleted: (user) => {
-            console.log("Updated User");
-            console.log(user);
-            console.log(user.updateUser.routines);
+          onCompleted: () => {
             refetchRoutines();
           },
         });
