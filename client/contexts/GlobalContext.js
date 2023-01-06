@@ -2,8 +2,14 @@ import React, { useContext } from "react";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { GET_USER_ROUTINES } from "../api/queries/UserQuery";
 import { ADD_TIME, DELETE_TIME } from "../api/mutations/TimeMutations";
-import { ADD_ROUTINE, DELETE_ROUTINE } from "../api/mutations/RoutineMutations";
+import {
+  ADD_ROUTINE,
+  DELETE_ROUTINE,
+  UPDATE_ROUTINE_HISTORY,
+} from "../api/mutations/RoutineMutations";
 import { UPDATE_USER_ROUTINES } from "../api/mutations/UserMutations";
+import { GET_ROUTINE_HISTORY } from "../api/queries/RoutineQuery";
+import { ADD_HISTORY, UPDATE_HISTORY } from "../api/mutations/HistoryMutations";
 
 const GlobalContext = React.createContext();
 
@@ -12,7 +18,6 @@ export const useGlobalContext = () => {
 };
 
 const GlobalProvider = ({ children }) => {
-  //const { loadingUser, errorUser, dataUser } = useQuery(GET_USER);
   const {
     loading: loadingRoutines,
     error: errorRoutines,
@@ -25,6 +30,10 @@ const GlobalProvider = ({ children }) => {
   const [getUserRoutines] = useLazyQuery(GET_USER_ROUTINES);
   const [deleteTime] = useMutation(DELETE_TIME);
   const [deleteRoutine] = useMutation(DELETE_ROUTINE);
+  const [addHistory] = useMutation(ADD_HISTORY);
+  const { refetch: refetchRoutineHistory } = useQuery(GET_ROUTINE_HISTORY);
+  const [updateRoutine] = useMutation(UPDATE_ROUTINE_HISTORY);
+  const [updateHistory] = useMutation(UPDATE_HISTORY);
 
   const addNewTime = ({ specificTime, nonSpecificTime }) => {
     addTime({
@@ -152,6 +161,52 @@ const GlobalProvider = ({ children }) => {
     });
   };
 
+  const updateHistoryCompletion = async (routineId, completionBool) => {
+    const routine = await refetchRoutineHistory({ routineId: routineId });
+
+    const latestHistory =
+      routine.data.routine.historyOfCompletion[
+        routine.data.routine.historyOfCompletion.length - 1
+      ];
+
+    var latestDate = new Date(latestHistory.time);
+    var today = new Date();
+
+    if (latestDate.toDateString() === today.toDateString()) {
+      updateHistory({
+        variables: {
+          id: latestHistory.id,
+          completed: completionBool,
+          time: latestHistory.time,
+        },
+        onError: (error) => console.log(error),
+        onCompleted: () => refetchRoutines(),
+      });
+    } else {
+      addHistory({
+        variables: {
+          completed: completionBool,
+          time: new Date().toISOString(),
+        },
+        onError: (error) => console.log(error),
+        onCompleted: (history) => {
+          var arr = [];
+          routine.data.routine.historyOfCompletion.forEach((item) =>
+            arr.push(item.id),
+          );
+          arr.push(history.createHistory.id);
+          updateRoutine({
+            variables: {
+              id: routineId,
+              historyOfCompletion: arr,
+            },
+            onError: (error) => console.log(error),
+          });
+        },
+      });
+    }
+  };
+
   const value = {
     loadingRoutines,
     errorRoutines,
@@ -159,6 +214,7 @@ const GlobalProvider = ({ children }) => {
     addNewTime,
     addNewRoutine,
     removeRoutine,
+    updateHistoryCompletion,
   };
 
   return (

@@ -8,7 +8,6 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 const RoutinesScreen = ({ navigation }) => {
   const { loadingRoutines, errorRoutines, dataRoutines } = useGlobalContext();
 
-  // Behövs verkligen useEffect här?
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
