@@ -18,4 +18,14 @@ const UPDATE_HISTORY = gql`
     }
 `;
 
-export { ADD_HISTORY, UPDATE_HISTORY };
+const DELETE_HISTORY = gql`
+    mutation deleteHistory($id: ID!) {
+        deleteHistory(id: $id) {
+            id
+            completed
+            time
+        }
+    }
+`;
+
+export { ADD_HISTORY, UPDATE_HISTORY, DELETE_HISTORY };

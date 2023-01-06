@@ -9,7 +9,11 @@ import {
 } from "../api/mutations/RoutineMutations";
 import { UPDATE_USER_ROUTINES } from "../api/mutations/UserMutations";
 import { GET_ROUTINE_HISTORY } from "../api/queries/RoutineQuery";
-import { ADD_HISTORY, UPDATE_HISTORY } from "../api/mutations/HistoryMutations";
+import {
+  ADD_HISTORY,
+  UPDATE_HISTORY,
+  DELETE_HISTORY,
+} from "../api/mutations/HistoryMutations";
 
 const GlobalContext = React.createContext();
 
@@ -34,6 +38,7 @@ const GlobalProvider = ({ children }) => {
   const { refetch: refetchRoutineHistory } = useQuery(GET_ROUTINE_HISTORY);
   const [updateRoutine] = useMutation(UPDATE_ROUTINE_HISTORY);
   const [updateHistory] = useMutation(UPDATE_HISTORY);
+  const [deleteHistory] = useMutation(DELETE_HISTORY);
 
   const addNewTime = ({ specificTime, nonSpecificTime }) => {
     addTime({
@@ -60,34 +65,44 @@ const GlobalProvider = ({ children }) => {
       },
       onError: (error) => console.log(error),
       onCompleted: (timeOfDay) => {
-        addRoutine({
+        addHistory({
           variables: {
-            title: title,
-            description: description,
-            frequency: frequency,
-            highPriority: highPriority,
-            timeOfDay: timeOfDay.createTime.id,
+            completed: false,
+            time: new Date().toISOString(),
           },
           onError: (error) => console.log(error),
-          onCompleted: (routine) => {
-            getUserRoutines({
+          onCompleted: (history) => {
+            addRoutine({
+              variables: {
+                title: title,
+                description: description,
+                frequency: frequency,
+                highPriority: highPriority,
+                timeOfDay: timeOfDay.createTime.id,
+                historyOfCompletion: [history.createHistory.id],
+              },
               onError: (error) => console.log(error),
-              onCompleted: (userRoutines) => {
-                var routineObjs = userRoutines.user.routines;
-                var routines = [];
-                routineObjs.forEach((element) => {
-                  routines.push(element.id);
-                });
-                if (!routines.includes(routine.createRoutine.id)) {
-                  routines.push(routine.createRoutine.id);
-                }
-                updateUserRoutines({
-                  variables: {
-                    routines: routines,
-                  },
+              onCompleted: (routine) => {
+                getUserRoutines({
                   onError: (error) => console.log(error),
-                  onCompleted: () => {
-                    refetchRoutines();
+                  onCompleted: (userRoutines) => {
+                    var routineObjs = userRoutines.user.routines;
+                    var routines = [];
+                    routineObjs.forEach((element) => {
+                      routines.push(element.id);
+                    });
+                    if (!routines.includes(routine.createRoutine.id)) {
+                      routines.push(routine.createRoutine.id);
+                    }
+                    updateUserRoutines({
+                      variables: {
+                        routines: routines,
+                      },
+                      onError: (error) => console.log(error),
+                      onCompleted: () => {
+                        refetchRoutines();
+                      },
+                    });
                   },
                 });
               },
@@ -101,7 +116,7 @@ const GlobalProvider = ({ children }) => {
   const removeRoutine = (routineId) => {
     getUserRoutines({
       onError: (error) => console.log(error),
-      onCompleted: (userRoutines) => {
+      onCompleted: async (userRoutines) => {
         var routineToRemove = userRoutines.user.routines.filter(
           (routine) => routine.id == routineId,
         )[0];
@@ -115,6 +130,18 @@ const GlobalProvider = ({ children }) => {
             id: timeOfDayId,
           },
           onError: (error) => console.log(error),
+        });
+
+        const routineHistory = await refetchRoutineHistory({
+          routineId: routineId,
+        });
+
+        routineHistory.data.routine.historyOfCompletion.forEach((item) => {
+          deleteHistory({
+            variables: {
+              id: item.id,
+            },
+          });
         });
 
         deleteRoutine({
