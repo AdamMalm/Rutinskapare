@@ -1,12 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import Container from "../components/Container";
 import RoutineList from "../components/RoutineCards/RoutineList";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const RoutinesScreen = ({ navigation }) => {
-  const { loadingRoutines, errorRoutines, dataRoutines } = useGlobalContext();
+  const { loadingRoutines, errorRoutines, getTodaysRoutines } =
+    useGlobalContext();
+  const [completedRoutines, setCompletedRoutines] = useState([]);
+  const [uncompletedRoutines, setUncompletedRoutines] = useState([]);
+
+  useEffect(() => {
+    if (loadingRoutines || errorRoutines) return;
+    setCompletedRoutines(
+      getTodaysRoutines().filter(
+        (routine) =>
+          routine.historyOfCompletion[0] &&
+          routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
+            .completed,
+      ),
+    );
+    setUncompletedRoutines(
+      getTodaysRoutines().filter(
+        (routine) =>
+          !routine.historyOfCompletion[0] ||
+          !routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
+            .completed,
+      ),
+    );
+  }, [getTodaysRoutines]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -26,37 +51,53 @@ const RoutinesScreen = ({ navigation }) => {
   }, [navigation]);
 
   // Lägg till laddningsanimation?
-  if (loadingRoutines) return null;
-  if (errorRoutines) return console.log(errorRoutines);
+  if (loadingRoutines) return <Loading />;
+  if (errorRoutines) return <Error error={errorRoutines} />;
+
+  if (uncompletedRoutines.length === 0 && completedRoutines.length === 0) {
+    return (
+      <Container>
+        <View className="flex flex-col items-center">
+          <Text className="text-base font-bold text-center color-primary100 mt-4">
+            Du har inga rutiner att utföra idag
+          </Text>
+          <Text className="text-base mt-2 text-center">
+            Redigera eller lägg till rutiner genom att klicka på kugghjulet uppe
+            till höger.
+          </Text>
+        </View>
+      </Container>
+    );
+  }
 
   return (
     <Container>
       <View className="flex flex-column space-y-10">
-        <Text className="text-xl font-bold color-primary100 mb-4">
-          Att göra idag
-        </Text>
-        <RoutineList
-          routines={dataRoutines.user.routines.filter(
-            (routine) =>
-              !routine.historyOfCompletion[0] ||
-              !routine.historyOfCompletion[
-                routine.historyOfCompletion.length - 1
-              ].completed,
+        <View>
+          <Text className="text-xl font-bold color-primary100 mb-4">
+            Att göra idag
+          </Text>
+          {uncompletedRoutines.length === 0 ? (
+            <Text className="text-base">
+              Du har utfört alla dagens rutiner!
+            </Text>
+          ) : (
+            <RoutineList routines={uncompletedRoutines} />
           )}
-        />
+        </View>
 
-        <Text className="text-xl font-bold color-primary100 mb-4">
-          Utfört idag
-        </Text>
-        <RoutineList
-          routines={dataRoutines.user.routines.filter(
-            (routine) =>
-              routine.historyOfCompletion[0] &&
-              routine.historyOfCompletion[
-                routine.historyOfCompletion.length - 1
-              ].completed,
+        <View>
+          <Text className="text-xl font-bold color-primary100 mb-4">
+            Utfört idag
+          </Text>
+          {completedRoutines.length === 0 ? (
+            <Text className="text-base">
+              Du har inte utfört några rutiner idag.
+            </Text>
+          ) : (
+            <RoutineList routines={completedRoutines} />
           )}
-        />
+        </View>
       </View>
     </Container>
   );

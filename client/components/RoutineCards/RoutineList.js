@@ -5,18 +5,7 @@ const RoutineList = ({ routines }) => {
   return (
     <View className="flex flex-column space-y-4">
       {routines.map((routine) => (
-        <Routine
-          key={routine.id}
-          id={routine.id}
-          title={routine.title}
-          description={routine.description}
-          time={routine.time}
-          isCompleted={
-            routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
-              ?.completed
-          }
-          highPriority={routine.highPriority}
-        />
+        <Routine key={routine.id} routine={routine} />
       ))}
     </View>
   );

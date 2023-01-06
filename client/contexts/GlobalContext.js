@@ -60,7 +60,6 @@ const GlobalProvider = ({ children }) => {
       },
       onError: (error) => console.log(error),
       onCompleted: (timeOfDay) => {
-        console.log(timeOfDay);
         addRoutine({
           variables: {
             title: title,
@@ -71,8 +70,6 @@ const GlobalProvider = ({ children }) => {
           },
           onError: (error) => console.log(error),
           onCompleted: (routine) => {
-            console.log(routine);
-            console.log("------------");
             getUserRoutines({
               onError: (error) => console.log(error),
               onCompleted: (userRoutines) => {
@@ -84,15 +81,12 @@ const GlobalProvider = ({ children }) => {
                 if (!routines.includes(routine.createRoutine.id)) {
                   routines.push(routine.createRoutine.id);
                 }
-                console.log(routines);
                 updateUserRoutines({
                   variables: {
                     routines: routines,
                   },
                   onError: (error) => console.log(error),
-                  onCompleted: (user) => {
-                    console.log(user);
-                    console.log(user.updateUser.routines);
+                  onCompleted: () => {
                     refetchRoutines();
                   },
                 });
@@ -121,10 +115,6 @@ const GlobalProvider = ({ children }) => {
             id: timeOfDayId,
           },
           onError: (error) => console.log(error),
-          onCompleted: (timeOfDayData) => {
-            console.log("Deleted TimeOfDay");
-            console.log(timeOfDayData);
-          },
         });
 
         deleteRoutine({
@@ -132,10 +122,6 @@ const GlobalProvider = ({ children }) => {
             id: routineId,
           },
           onError: (error) => console.log(error),
-          onCompleted: (routineData) => {
-            console.log("Deleted Routine");
-            console.log(routineData);
-          },
         });
 
         var routines = [];
@@ -144,16 +130,12 @@ const GlobalProvider = ({ children }) => {
             routines.push(routine.id);
           }
         });
-        console.log(routines);
         updateUserRoutines({
           variables: {
             routines: routines,
           },
           onError: (error) => console.log(error),
-          onCompleted: (user) => {
-            console.log("Updated User");
-            console.log(user);
-            console.log(user.updateUser.routines);
+          onCompleted: () => {
             refetchRoutines();
           },
         });
@@ -207,6 +189,25 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
+  const swedishDaylist = [
+    "Söndag",
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag",
+  ];
+
+  const getTodaysRoutines = () => {
+    let today = new Date();
+    let day = today.getDay();
+    let todaysRoutines = dataRoutines.user.routines.filter((routine) =>
+      routine.frequency.includes(swedishDaylist[day]),
+    );
+    return todaysRoutines;
+  };
+
   const value = {
     loadingRoutines,
     errorRoutines,
@@ -215,6 +216,7 @@ const GlobalProvider = ({ children }) => {
     addNewRoutine,
     removeRoutine,
     updateHistoryCompletion,
+    getTodaysRoutines,
   };
 
   return (

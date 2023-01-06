@@ -5,19 +5,7 @@ const RoutineEditList = ({ routines, ...rest }) => {
   return (
     <View className="flex flex-column space-y-4" {...rest}>
       {routines.map((routine) => (
-        <RoutineEdit
-          key={routine.id}
-          id={routine.id}
-          title={routine.title}
-          description={routine.description}
-          time={
-            routine.timeOfDay.specificTime == ""
-              ? routine.timeOfDay.nonSpecificTime
-              : routine.timeOfDay.specificTime
-          }
-          frequency={routine.frequency}
-          highPriority={routine.highPriority}
-        />
+        <RoutineEdit key={routine.id} routine={routine} />
       ))}
     </View>
   );
