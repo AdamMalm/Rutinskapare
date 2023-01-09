@@ -26,4 +26,26 @@ const DELETE_ROUTINE = gql`
     }
 `;
 
-export { ADD_ROUTINE, DELETE_ROUTINE };
+const UPDATE_ROUTINE_HISTORY = gql`
+  mutation updateRoutine($id: ID!, $historyOfCompletion: [ID]) {
+    updateRoutine(id: $id, historyOfCompletion: $historyOfCompletion) {
+        id
+        title
+        description
+        frequency
+        highPriority
+        timeOfDay {
+          id
+          specificTime
+          nonSpecificTime
+        }
+        historyOfCompletion {
+          id
+          completed
+          time
+        }
+    }
+}
+`;
+
+export { ADD_ROUTINE, DELETE_ROUTINE, UPDATE_ROUTINE_HISTORY };

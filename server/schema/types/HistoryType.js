@@ -1,9 +1,5 @@
-const {
-  GraphQLObjectType,
-  GraphQLID,
-  GraphQLBoolean,
-  GraphQLString,
-} = require("graphql");
+const { GraphQLObjectType, GraphQLID, GraphQLBoolean } = require("graphql");
+const { DateTimeScalar } = require("./DateTimeScalar");
 
 const HistoryType = new GraphQLObjectType({
   name: "History",
@@ -18,8 +14,8 @@ const HistoryType = new GraphQLObjectType({
       resolve: (history) => history.completed,
     },
     time: {
-      type: GraphQLString,
-      resolve: (history) => history.completed,
+      type: DateTimeScalar,
+      resolve: (history) => history.time,
     },
   }),
 });

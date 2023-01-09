@@ -1,20 +1,16 @@
-const {
-  GraphQLString,
-  GraphQLID,
-  GraphQLNonNull,
-  GraphQLBoolean,
-} = require("graphql");
+const { GraphQLID, GraphQLNonNull, GraphQLBoolean } = require("graphql");
 
 const { HistoryType } = require("../types");
 
 const History = require("../../models/History");
+const { DateTimeScalar } = require("../types/DateTimeScalar");
 
 const createHistory = {
   type: HistoryType,
   description: "The mutation that allows you to create a new History object",
   args: {
     completed: { type: new GraphQLNonNull(GraphQLBoolean) },
-    time: { type: GraphQLString },
+    time: { type: DateTimeScalar },
   },
   resolve(parent, args) {
     const history = new History({
@@ -31,7 +27,7 @@ const updateHistory = {
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
     completed: { type: GraphQLBoolean },
-    time: { type: GraphQLString },
+    time: { type: DateTimeScalar },
   },
   resolve(parent, args) {
     return History.findByIdAndUpdate(

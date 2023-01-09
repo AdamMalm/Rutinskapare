@@ -35,8 +35,8 @@ const GET_USER_ROUTINES = gql`
             nonSpecificTime
             }
             historyOfCompletion {
-            completed
-            time
+              completed
+              time
             }
         }
     }
