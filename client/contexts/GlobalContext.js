@@ -100,9 +100,12 @@ const GlobalProvider = ({ children }) => {
       onError: (error) => console.log(error),
     });
 
-    var routines = dataRoutines.user.routines.filter(
-      (routine) => routine.id !== routineId,
-    )[0];
+    var routines = [];
+    dataRoutines.user.routines.forEach((routine) => {
+      if (routine.id != routineId) {
+        routines.push(routine.id);
+      }
+    });
 
     updateUserRoutines({
       variables: {
