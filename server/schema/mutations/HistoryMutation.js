@@ -1,9 +1,9 @@
 const { GraphQLID, GraphQLNonNull, GraphQLBoolean } = require("graphql");
-const { DateTimeScalar } = require("../types/DateTimeScalar");
 
 const { HistoryType } = require("../types");
 
 const History = require("../../models/History");
+const { DateTimeScalar } = require("../types/DateTimeScalar");
 
 const createHistory = {
   type: HistoryType,
