@@ -1,8 +1,11 @@
 import { Text, View } from "react-native";
 import Button from "../Button";
 import PrioChip from "../PrioChip";
+import { useGlobalContext } from "../../contexts/GlobalContext";
 
 const Routine = ({ routine, ...rest }) => {
+  const { updateHistoryCompletion } = useGlobalContext();
+
   const isCompleted =
     routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
       ?.completed;
@@ -36,13 +39,13 @@ const Routine = ({ routine, ...rest }) => {
           title="Markera som ej utförd"
           type="outlined"
           className="mt-6"
-          onPress={() => console.log("Markera som ej utförd, API", +routine.id)}
+          onPress={() => updateHistoryCompletion(routine.id, false)}
         />
       ) : (
         <Button
           title="Markera som utförd"
           className="mt-6"
-          onPress={() => console.log("Markera som utförd, API", +routine.id)}
+          onPress={() => updateHistoryCompletion(routine.id, true)}
         />
       )}
     </View>

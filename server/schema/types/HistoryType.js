@@ -1,5 +1,4 @@
 const { GraphQLObjectType, GraphQLID, GraphQLBoolean } = require("graphql");
-
 const { DateTimeScalar } = require("./DateTimeScalar");
 
 const HistoryType = new GraphQLObjectType({
