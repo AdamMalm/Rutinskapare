@@ -4,7 +4,6 @@ const {
   deleteRoutine,
   updateRoutine,
 } = require("./RoutineMutation");
-const { createTime, updateTime, deleteTime } = require("./TimeMutation");
 const {
   createHistory,
   updateHistory,
@@ -23,9 +22,6 @@ const mutationFields = {
   createRoutine,
   deleteRoutine,
   updateRoutine,
-  createTime,
-  updateTime,
-  deleteTime,
   createHistory,
   updateHistory,
   deleteHistory,

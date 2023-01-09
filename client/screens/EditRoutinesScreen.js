@@ -7,8 +7,7 @@ import Error from "../components/Error";
 import { View, Text } from "react-native";
 
 const EditRoutinesScreen = ({ navigation }) => {
-  const { loadingRoutines, errorRoutines, dataRoutines, addNewRoutine } =
-    useGlobalContext();
+  const { loadingRoutines, errorRoutines, dataRoutines } = useGlobalContext();
 
   if (loadingRoutines) return <Loading />;
   if (errorRoutines) return <Error error={errorRoutines} />;
@@ -35,21 +34,6 @@ const EditRoutinesScreen = ({ navigation }) => {
 
   return (
     <Container extraPadding>
-      <Button
-        title="Skapa ny rutin (FOR TESTING)"
-        className="mb-4"
-        iconName="ios-add"
-        onPress={() =>
-          addNewRoutine({
-            title: "test",
-            description: "test",
-            frequency: ["monday", "friday"],
-            highPriority: true,
-            specificTime: "",
-            nonSpecificTime: "day",
-          })
-        }
-      />
       <Button
         title="Skapa ny rutin"
         iconName="ios-add"

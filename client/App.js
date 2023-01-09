@@ -48,7 +48,7 @@ function RoutineTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          var iconName;
 
           if (route.name === "RoutinesTab") {
             iconName = focused ? "ios-list" : "ios-list-outline";

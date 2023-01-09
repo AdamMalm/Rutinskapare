@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const ADD_ROUTINE = gql`
-  mutation createRoutine($title: String!, $description: String!, $frequency: [RoutineTime]!, $highPriority: Boolean!, $timeOfDay: ID!, $historyOfCompletion: [ID]!) {
+  mutation createRoutine($title: String!, $description: String, $frequency: [RoutineTime]!, $highPriority: Boolean!, $timeOfDay: TimeInput!, $historyOfCompletion: [ID]! ) {
     createRoutine(title: $title, description: $description, frequency: $frequency, highPriority: $highPriority, timeOfDay: $timeOfDay, historyOfCompletion: $historyOfCompletion) {
         id
         title
@@ -9,7 +9,7 @@ const ADD_ROUTINE = gql`
         frequency
         highPriority
         timeOfDay{
-          id
+          isSpecific
           specificTime
           nonSpecificTime
         }

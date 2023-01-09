@@ -5,7 +5,6 @@ const {
   GraphQLBoolean,
   GraphQLList,
 } = require("graphql");
-const Time = require("../../models/Time");
 const History = require("../../models/History");
 const { TimeType } = require("./TimeType");
 const { HistoryType } = require("./HistoryType");
@@ -36,7 +35,7 @@ const RoutineType = new GraphQLObjectType({
     },
     timeOfDay: {
       type: TimeType,
-      resolve: (routine) => Time.findById(routine.timeOfDay),
+      resolve: (routine) => routine.timeOfDay,
     },
     historyOfCompletion: {
       type: new GraphQLList(HistoryType),

@@ -4,6 +4,10 @@ import Button from "../Button";
 import PrioChip from "../PrioChip";
 
 const formatFrequency = (frequency) => {
+  if (frequency.length === 7) {
+    return "Varje dag";
+  }
+
   let formattedFrequency = "";
   frequency.forEach((item, index) => {
     if (index === 0) {
@@ -17,10 +21,10 @@ const formatFrequency = (frequency) => {
 
 const RoutineEdit = ({ routine, ...rest }) => {
   const { removeRoutine } = useGlobalContext();
-  const time =
-    routine.timeOfDay.specificTime == ""
-      ? routine.timeOfDay.nonSpecificTime
-      : routine.timeOfDay.specificTime;
+  const time = routine.timeOfDay.specificTime
+    ? routine.timeOfDay.specificTime
+    : routine.timeOfDay.nonSpecificTime;
+
   return (
     <View className="bg-white p-4 rounded-lg shadow-sm" {...rest}>
       {routine.highPriority && (

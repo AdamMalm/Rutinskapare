@@ -3,17 +3,13 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
 
 const Prioritet = ({ isPrioritised, setPrioritised, ...rest }) => {
-  const frivillig = "(Frivillig)";
   const fullConfig = resolveConfig(tailwindConfig);
   const primary80 = fullConfig.theme.colors.primary80;
   const darkgray = fullConfig.theme.colors.darkgray;
 
   return (
     <View className="mb-4" {...rest}>
-      <View className="flex flex-row items-center">
-        <Text className="text-xl font-bold color-primary100 ">Prioritet</Text>
-        <Text className="text-sm color-black  ml-2">{frivillig}</Text>
-      </View>
+      <Text className="text-xl font-bold color-primary100 ">Prioritet</Text>
       <Text className="text-sm color-black mb-6 ">
         Du får notiser om de rutiner du sätter hög prioritet på.
       </Text>

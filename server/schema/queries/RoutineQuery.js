@@ -7,6 +7,7 @@ const routineQuery = {
   type: RoutineType,
   args: { id: { type: GraphQLID } },
   resolve(parent, args) {
+    Routine.findById(args.id);
     return Routine.findById(args.id);
   },
 };

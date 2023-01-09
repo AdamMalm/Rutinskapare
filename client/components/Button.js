@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
-  let pressableTypeStyle = "";
-  let hexColor = "";
-  let textColor = "";
+  var pressableTypeStyle = "";
+  var hexColor = "";
+  var textColor = "";
 
   switch (type) {
     case "contained":
@@ -21,6 +21,10 @@ const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
     case "text":
       hexColor = "#144E5A";
       textColor = "text-primary100";
+      break;
+    case "disabled":
+      pressableTypeStyle = "bg-gray";
+      textColor = "text-darkgray";
       break;
     default:
       break;
@@ -46,7 +50,7 @@ const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
 };
 
 Button.propTypes = {
-  type: PropTypes.oneOf(["contained", "outlined", "text"]),
+  type: PropTypes.oneOf(["contained", "outlined", "text", "disabled"]),
 };
 
 export default Button;
