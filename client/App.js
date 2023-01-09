@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-
+import { useEffect } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,6 +9,8 @@ import { GlobalProvider } from "./contexts/GlobalContext";
 
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import Constants from "expo-constants";
+
+import * as Notifications from "expo-notifications";
 
 import RoutinesScreen from "./screens/RoutinesScreen";
 import EditRoutinesScreen from "./screens/EditRoutinesScreen";
@@ -44,6 +46,17 @@ const Theme = {
     primary: primary100,
   },
 };
+
+async function requestPermissionsAsync() {
+  return await Notifications.requestPermissionsAsync({
+    ios: {
+      allowAlert: true,
+      allowBadge: true,
+      allowSound: true,
+      allowAnnouncements: true,
+    },
+  });
+}
 
 function RoutineTabs() {
   return (
@@ -97,6 +110,15 @@ function RoutineTabs() {
 }
 
 export default function App() {
+  useEffect(() => {
+    requestPermissionsAsync();
+
+    // Cancel all scheduled notifications
+    // Since we don't remove notifications ever, this gives us a clean slate for testing
+    // TODO: Remove this when we have a proper notification system
+    Notifications.cancelAllScheduledNotificationsAsync();
+  }, []);
+
   return (
     <ApolloProvider client={client}>
       <GlobalProvider>
