@@ -35,7 +35,7 @@ const createRoutine = {
     highPriority: { type: new GraphQLNonNull(GraphQLBoolean) },
     timeOfDay: { type: GraphQLID },
     historyOfCompletion: {
-      type: new GraphQLList(new GraphQLNonNull(GraphQLID)),
+      type: new GraphQLList(GraphQLID),
     },
   },
   resolve(parent, args) {
