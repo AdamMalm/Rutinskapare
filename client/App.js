@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -64,7 +66,11 @@ function RoutineTabs() {
         },
         tabBarActiveTintColor: primary100,
         tabBarLabelStyle: { fontSize: 16, fontWeight: "500", flex: 1 },
-        tabBarStyle: { height: 100 },
+        tabBarStyle: {
+          height: Platform.OS === "ios" ? 100 : 72,
+          paddingLeft: Platform.OS === "ios" ? 0 : 8,
+          paddingTop: Platform.OS === "ios" ? 0 : 8,
+        },
         headerTintColor: primary100,
         headerTitleStyle: {
           fontWeight: "bold",
