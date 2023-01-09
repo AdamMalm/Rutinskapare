@@ -1,3 +1,4 @@
+import * as Notifications from "expo-notifications";
 import { Text, View } from "react-native";
 import { useState, useEffect } from "react";
 import Container from "../components/Container";
@@ -17,13 +18,13 @@ const timeButtons = [
 ];
 const frequencyButtons = [{ label: "Varje dag" }, { label: "Specifika dagar" }];
 const dayButtons = [
+  { label: "Söndag", value: "sunday" },
   { label: "Måndag", value: "monday" },
   { label: "Tisdag", value: "tuesday" },
   { label: "Onsdag", value: "wednesday" },
   { label: "Torsdag", value: "thursday" },
   { label: "Fredag", value: "friday" },
   { label: "Lördag", value: "saturday" },
-  { label: "Söndag", value: "sunday" },
 ];
 
 const CreateRoutineScreen = ({ navigation: { goBack } }) => {
@@ -39,8 +40,52 @@ const CreateRoutineScreen = ({ navigation: { goBack } }) => {
   const [isPrioritised, setPrioritised] = useState(false);
   const toggleSwitch = () => setPrioritised((previousState) => !previousState);
 
+  const scheduleNotifications = async ({ days }) => {
+    let hour = 0;
+    let minute = 0;
+
+    // If nonSpecificTime, set standard hours
+    switch (selectedTimeIndexes[0]) {
+      case 0:
+        hour = 7;
+        break;
+
+      case 1:
+        hour = 13;
+        break;
+
+      case 2:
+        hour = 17;
+        break;
+
+      case 3:
+        hour = time.getHours();
+        minute = time.getMinutes();
+        break;
+
+      default:
+        break;
+    }
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Det är dags för din rutin!",
+        body: title,
+      },
+      trigger: {
+        dayOfWeek: days,
+        hour,
+        minute,
+        repeat: true,
+      },
+    });
+  };
+
   useEffect(() => {
     if (dataAddRoutine) {
+      if (dataAddRoutine.createRoutine.highPriority) {
+        scheduleNotifications({ days: dataAddRoutine.createRoutine.frequency });
+      }
       resetAddRoutine();
       goBack();
     }
