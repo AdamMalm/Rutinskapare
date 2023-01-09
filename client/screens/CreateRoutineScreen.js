@@ -43,9 +43,9 @@ const CreateRoutineScreen = () => {
   }
 
   function createRoutine() {
-    let days = [];
-    let specificTime = "";
-    let nonSpecificTime = "";
+    var days = [];
+    var specificTime = "";
+    var nonSpecificTime = "";
 
     if (timeButtons[selectedTimeIndexes[0]].label === "Specifik tid") {
       specificTime = format(time, "HH:mm");

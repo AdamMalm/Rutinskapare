@@ -45,7 +45,7 @@ const StatisticsScreen = () => {
   const [routineStatistics, setRoutineStatistics] = useState([]);
 
   useEffect(() => {
-    let routinesStats = [];
+    var routinesStats = [];
     dataRoutines.user.routines.map((routine) => {
       var date = new Date();
       switch (activePeriod) {
@@ -59,14 +59,14 @@ const StatisticsScreen = () => {
           date.setFullYear(date.getFullYear() - 1);
           break;
       }
-      let stats = getStats({
+      var stats = getStats({
         completionHistory: routine.historyOfCompletion,
         referenceDate: date,
       });
       routinesStats.push({ ...routine, stats });
     });
     setRoutineStatistics(routinesStats);
-  }, [activePeriod]);
+  }, [activePeriod, dataRoutines]);
 
   return (
     <Container>

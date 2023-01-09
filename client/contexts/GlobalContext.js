@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_ROUTINES } from "../api/queries/UserQuery";
 import {
   ADD_ROUTINE,
@@ -7,7 +7,6 @@ import {
   UPDATE_ROUTINE_HISTORY,
 } from "../api/mutations/RoutineMutations";
 import { UPDATE_USER_ROUTINES } from "../api/mutations/UserMutations";
-import { GET_ROUTINE_HISTORY } from "../api/queries/RoutineQuery";
 import {
   ADD_HISTORY,
   UPDATE_HISTORY,
@@ -29,10 +28,8 @@ const GlobalProvider = ({ children }) => {
   } = useQuery(GET_USER_ROUTINES);
   const [addRoutine] = useMutation(ADD_ROUTINE);
   const [updateUserRoutines] = useMutation(UPDATE_USER_ROUTINES);
-  const [getUserRoutines] = useLazyQuery(GET_USER_ROUTINES);
   const [deleteRoutine] = useMutation(DELETE_ROUTINE);
   const [addHistory] = useMutation(ADD_HISTORY);
-  const { refetch: refetchRoutineHistory } = useQuery(GET_ROUTINE_HISTORY);
   const [updateRoutine] = useMutation(UPDATE_ROUTINE_HISTORY);
   const [updateHistory] = useMutation(UPDATE_HISTORY);
   const [deleteHistory] = useMutation(DELETE_HISTORY);
@@ -69,9 +66,6 @@ const GlobalProvider = ({ children }) => {
             if (!routines.includes(routine.createRoutine.id)) {
               routines.push(routine.createRoutine.id);
             }
-            if (!routines.includes(routine.createRoutine.id)) {
-              routines.push(routine.createRoutine.id);
-            }
             updateUserRoutines({
               variables: {
                 routines: routines,
@@ -88,63 +82,50 @@ const GlobalProvider = ({ children }) => {
   };
 
   const removeRoutine = (routineId) => {
-    getUserRoutines({
+    var routine = dataRoutines.user.routines.filter(
+      (routine) => routine.id === routineId,
+    )[0];
+
+    routine.historyOfCompletion.forEach((item) => {
+      deleteHistory({
+        variables: {
+          id: item.id,
+        },
+      });
+    });
+
+    deleteRoutine({
+      variables: {
+        id: routineId,
+      },
       onError: (error) => console.log(error),
-      onCompleted: async (userRoutines) => {
-        let routineToRemove = userRoutines.user.routines.filter(
-          (routine) => routine.id == routineId,
-        )[0];
+    });
 
-        if (routineToRemove == undefined) return;
+    var routines = dataRoutines.user.routines.filter(
+      (routine) => routine.id !== routineId,
+    )[0];
 
-        const routineHistory = await refetchRoutineHistory({
-          routineId: routineId,
-        });
-
-        routineHistory.data.routine.historyOfCompletion.forEach((item) => {
-          deleteHistory({
-            variables: {
-              id: item.id,
-            },
-          });
-        });
-
-        deleteRoutine({
-          variables: {
-            id: routineId,
-          },
-          onError: (error) => console.log(error),
-        });
-
-        let routines = [];
-        userRoutines.user.routines.forEach((routine) => {
-          if (routine.id != routineId) {
-            routines.push(routine.id);
-          }
-        });
-        updateUserRoutines({
-          variables: {
-            routines: routines,
-          },
-          onError: (error) => console.log(error),
-          onCompleted: () => {
-            refetchRoutines();
-          },
-        });
+    updateUserRoutines({
+      variables: {
+        routines: routines,
+      },
+      onError: (error) => console.log(error),
+      onCompleted: () => {
+        refetchRoutines();
       },
     });
   };
 
   const updateHistoryCompletion = async (routineId, completionBool) => {
-    let routine = dataRoutines.user.routines.filter(
+    var routine = dataRoutines.user.routines.filter(
       (routine) => routine.id === routineId,
     )[0];
 
     const latestHistory =
       routine.historyOfCompletion[routine.historyOfCompletion.length - 1];
 
-    let latestDate = new Date(latestHistory.time);
-    let today = new Date();
+    var latestDate = new Date(latestHistory.time);
+    var today = new Date();
 
     if (latestDate.toDateString() === today.toDateString()) {
       updateHistory({
@@ -164,7 +145,7 @@ const GlobalProvider = ({ children }) => {
         },
         onError: (error) => console.log(error),
         onCompleted: (history) => {
-          let arr = [];
+          var arr = [];
           routine.data.routine.historyOfCompletion.forEach((item) =>
             arr.push(item.id),
           );
@@ -192,9 +173,9 @@ const GlobalProvider = ({ children }) => {
   ];
 
   const getTodaysRoutines = () => {
-    let today = new Date();
-    let day = today.getDay();
-    let todaysRoutines = dataRoutines.user.routines.filter((routine) =>
+    var today = new Date();
+    var day = today.getDay();
+    var todaysRoutines = dataRoutines.user.routines.filter((routine) =>
       routine.frequency.includes(swedishDaylist[day]),
     );
     return todaysRoutines;

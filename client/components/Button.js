@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
-  let pressableTypeStyle = "";
-  let hexColor = "";
-  let textColor = "";
+  var pressableTypeStyle = "";
+  var hexColor = "";
+  var textColor = "";
 
   switch (type) {
     case "contained":

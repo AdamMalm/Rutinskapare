@@ -8,14 +8,14 @@ const Notification = ({ isReminder, routineName, time, ...rest }) => {
   const fullConfig = resolveConfig(tailwindConfig);
   const primary60 = fullConfig.theme.colors.primary60;
   const orange = fullConfig.theme.colors.orange;
-  let iconName = isReminder
+  var iconName = isReminder
     ? "ios-alert-circle-outline"
     : "ios-notifications-outline";
-  let text = isReminder ? "Påminnelse" : "Dags för din rutin";
-  let bgStyle = isReminder
+  var text = isReminder ? "Påminnelse" : "Dags för din rutin";
+  var bgStyle = isReminder
     ? "bg-orange/20 h-12 w-12 mr-6 justify-center items-center rounded"
     : "bg-primary60/20 h-12 w-12 mr-6 rounded justify-center items-center";
-  let iconColor = isReminder ? orange : primary60;
+  var iconColor = isReminder ? orange : primary60;
 
   return (
     <View

@@ -10,7 +10,7 @@ const Statistic = ({ value, description }) => {
 };
 
 const formatFrequency = (frequency) => {
-  let formattedFrequency = "";
+  var formattedFrequency = "";
   frequency.forEach((item, index) => {
     if (index === 0) {
       formattedFrequency += item;

@@ -4,7 +4,7 @@ import Button from "../Button";
 import PrioChip from "../PrioChip";
 
 const formatFrequency = (frequency) => {
-  let formattedFrequency = "";
+  var formattedFrequency = "";
   frequency.forEach((item, index) => {
     if (index === 0) {
       formattedFrequency += item;
