@@ -30,7 +30,7 @@ const GET_USER_ROUTINES = gql`
             frequency
             highPriority
             timeOfDay {
-            id
+            isSpecific
             specificTime
             nonSpecificTime
             }

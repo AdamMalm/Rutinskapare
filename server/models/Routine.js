@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const RoutineSchema = new mongoose.Schema({
   title: {
     type: String,
+    required: true,
   },
   description: {
     type: String,
@@ -10,6 +11,7 @@ const RoutineSchema = new mongoose.Schema({
   frequency: [
     {
       type: String,
+      required: true,
       enum: [
         "Måndag",
         "Tisdag",
@@ -23,10 +25,19 @@ const RoutineSchema = new mongoose.Schema({
   ],
   highPriority: {
     type: Boolean,
+    required: true,
   },
   timeOfDay: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Time",
+    isSpecific: {
+      type: Boolean,
+    },
+    specificTime: {
+      type: String,
+    },
+    nonSpecificTime: {
+      type: String,
+      enum: ["", "Morgon", "Dag", "Kväll"],
+    },
   },
   historyOfCompletion: [
     {

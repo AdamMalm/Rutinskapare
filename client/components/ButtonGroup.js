@@ -37,7 +37,9 @@ const ButtonGroup = ({
           }
         >
           <View className="flex-row space-x-4">
-            <Feather name={button.icon} size={24} color="#144E5A" />
+            {button.icon && (
+              <Feather name={button.icon} size={24} color="#144E5A" />
+            )}
             <Text className="text-sm color-primary100 font-semibold py-1">
               {button.label}
             </Text>

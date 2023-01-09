@@ -23,8 +23,8 @@ const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
       textColor = "text-primary100";
       break;
     case "disabled":
-      pressableTypeStyle = "bg-darkgray";
-      textColor = "text-white";
+      pressableTypeStyle = "bg-gray";
+      textColor = "text-darkgray";
       break;
     default:
       break;
@@ -50,7 +50,7 @@ const Button = ({ onPress, title, iconName, type = "contained", ...rest }) => {
 };
 
 Button.propTypes = {
-  type: PropTypes.oneOf(["contained", "outlined", "text"]),
+  type: PropTypes.oneOf(["contained", "outlined", "text", "disabled"]),
 };
 
 export default Button;

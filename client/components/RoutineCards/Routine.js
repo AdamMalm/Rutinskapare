@@ -9,7 +9,6 @@ const Routine = ({ routine, ...rest }) => {
   const isCompleted =
     routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
       ?.completed;
-
   return (
     <View className="bg-white p-4 rounded-lg shadow-sm" {...rest}>
       {routine.highPriority && (
@@ -28,7 +27,11 @@ const Routine = ({ routine, ...rest }) => {
               <Text className="text-base my-auto ml-2">(utförd)</Text>
             )}
           </View>
-          <Text className="text-base my-auto">{routine.time}</Text>
+          <Text className="text-base my-auto">
+            {routine.timeOfDay.isSpecific
+              ? routine.timeOfDay.specificTime
+              : routine.timeOfDay.nonSpecificTime}
+          </Text>
         </View>
         {routine.description && (
           <Text className="text-base mt-1">{routine.description}</Text>

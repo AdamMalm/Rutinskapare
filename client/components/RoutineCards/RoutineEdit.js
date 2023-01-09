@@ -17,10 +17,10 @@ const formatFrequency = (frequency) => {
 
 const RoutineEdit = ({ routine, ...rest }) => {
   const { removeRoutine } = useGlobalContext();
-  const time =
-    routine.timeOfDay.specificTime == ""
-      ? routine.timeOfDay.nonSpecificTime
-      : routine.timeOfDay.specificTime;
+  const time = routine.timeOfDay.specificTime
+    ? routine.timeOfDay.specificTime
+    : routine.timeOfDay.nonSpecificTime;
+
   return (
     <View className="bg-white p-4 rounded-lg shadow-sm" {...rest}>
       {routine.highPriority && (

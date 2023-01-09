@@ -10,12 +10,12 @@ import { format } from "date-fns";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 const timeButtons = [
-  { label: "Morgon", icon: "sunrise", value: "morning" },
-  { label: "Dag", icon: "sun", value: "day" },
-  { label: "Kväll", icon: "moon", value: "evening" },
+  { label: "Morgon", icon: "sunrise" },
+  { label: "Dag", icon: "sun" },
+  { label: "Kväll", icon: "moon" },
   { label: "Specifik tid", icon: "clock" },
 ];
-const frekvensButtons = [{ label: "Varje dag" }, { label: "Specifika dagar" }];
+const frequencyButtons = [{ label: "Varje dag" }, { label: "Specifika dagar" }];
 const dayButtons = [
   { label: "Måndag", value: "monday" },
   { label: "Tisdag", value: "tuesday" },
@@ -25,7 +25,6 @@ const dayButtons = [
   { label: "Lördag", value: "saturday" },
   { label: "Söndag", value: "sunday" },
 ];
-const frivillig = "(Frivillig)";
 
 const CreateRoutineScreen = () => {
   const { addNewRoutine } = useGlobalContext();
@@ -33,7 +32,7 @@ const CreateRoutineScreen = () => {
   const [selectedTimeIndexes, setSelectedTimeIndexes] = useState([]);
   const [selectedFreqIndexes, setSelectedFreqIndexes] = useState([]);
   const [selectedDayIndexes, setSelectedDayIndexes] = useState([]);
-  const [routineName, setRoutineNameText] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescriptionText] = useState("");
   const [time, setTime] = useState(new Date());
   const [isPrioritised, setPrioritised] = useState(false);
@@ -44,34 +43,17 @@ const CreateRoutineScreen = () => {
   }
 
   function createRoutine() {
-    var days = [];
-    var specificTime = " ";
-    var timeOfDay = " ";
+    let days = [];
+    let specificTime = "";
+    let nonSpecificTime = "";
 
     if (timeButtons[selectedTimeIndexes[0]].label === "Specifik tid") {
       specificTime = format(time, "HH:mm");
-
-      //------------ ändra till: timeOfDay = "none"; -------------------------
-      if (Number(format(time, "HH")) < 10) {
-        timeOfDay = "morning";
-      } else if (Number(format(time, "HH")) > 16) {
-        timeOfDay = "evening";
-      } else {
-        timeOfDay = "day";
-      }
-      // ---------------------------------------------------------------------
     } else {
-      timeOfDay = timeButtons[selectedTimeIndexes[0]].value;
-      if (timeOfDay === "morning") {
-        specificTime = "08:00";
-      } else if (timeOfDay === "day") {
-        specificTime = "12:00";
-      } else {
-        specificTime = "17:00";
-      }
+      nonSpecificTime = timeButtons[selectedTimeIndexes[0]].label;
     }
 
-    if (frekvensButtons[selectedFreqIndexes[0]].label == "Varje dag") {
+    if (selectedFreqIndexes[0] === 0) {
       dayButtons.forEach((day) => {
         days.push(day.value);
       });
@@ -85,12 +67,15 @@ const CreateRoutineScreen = () => {
     }
 
     addNewRoutine({
-      title: routineName,
-      description: description,
+      title,
+      description,
       frequency: days,
       highPriority: isPrioritised,
-      specificTime: specificTime,
-      nonSpecificTime: timeOfDay,
+      timeOfDay: {
+        isSpecific: specificTime !== "",
+        specificTime,
+        nonSpecificTime,
+      },
     });
   }
 
@@ -100,7 +85,7 @@ const CreateRoutineScreen = () => {
         <TextField
           name={"Rutinnamn"}
           placeholder={"Exempelvis: Medicin"}
-          onChange={setRoutineNameText}
+          onChange={setTitle}
         />
         <TextField
           name={"Beskrivning"}
@@ -110,7 +95,7 @@ const CreateRoutineScreen = () => {
         <View>
           <View className="flex flex-row items-center">
             <Text className="text-xl font-bold color-primary100 mb-6">Tid</Text>
-            <Text className="text-sm color-black mb-6 ml-2">{frivillig}</Text>
+            <Text className="text-sm color-black mb-6 ml-2">(Frivillig)</Text>
           </View>
           <ButtonGroup
             onPress={setSelectedTimeIndexes}
@@ -136,7 +121,7 @@ const CreateRoutineScreen = () => {
           </Text>
           <ButtonGroup
             onPress={setSelectedFreqIndexes}
-            buttons={frekvensButtons}
+            buttons={frequencyButtons}
             selectedIndexes={selectedFreqIndexes}
           />
           {selectedFreqIndexes[0] === 1 && (
@@ -157,8 +142,15 @@ const CreateRoutineScreen = () => {
           isPrioritised={isPrioritised}
           setPrioritised={toggleSwitch}
         />
-        {routineName === "" || selectedFreqIndexes[0] === null ? (
-          <Button type="disabled" title={"Fyll i rutininformation"}></Button>
+        {title === "" ||
+        selectedFreqIndexes[0] === null ||
+        (selectedFreqIndexes[0] === 1 && selectedDayIndexes.length === 0) ? (
+          <>
+            <Text className="text-sm text-center mt-10 mb-2">
+              Fyll i alla obligatoriska fält.
+            </Text>
+            <Button type="disabled" title={"Spara rutin"}></Button>
+          </>
         ) : (
           <Button onPress={createRoutine} title={"Spara rutin"}></Button>
         )}
