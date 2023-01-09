@@ -26,8 +26,10 @@ const GlobalProvider = ({ children }) => {
     data: dataRoutines,
     refetch: refetchRoutines,
   } = useQuery(GET_USER_ROUTINES);
-  const [addRoutine, { error: errorAddRoutine, data: dataAddRoutine }] =
-    useMutation(ADD_ROUTINE);
+  const [
+    addRoutine,
+    { error: errorAddRoutine, data: dataAddRoutine, reset: resetAddRoutine },
+  ] = useMutation(ADD_ROUTINE);
   const [updateUserRoutines] = useMutation(UPDATE_USER_ROUTINES);
   const [deleteRoutine] = useMutation(DELETE_ROUTINE);
   const [addHistory] = useMutation(ADD_HISTORY);
@@ -190,6 +192,7 @@ const GlobalProvider = ({ children }) => {
     addNewRoutine,
     dataAddRoutine,
     errorAddRoutine,
+    resetAddRoutine,
     removeRoutine,
     updateHistoryCompletion,
     getTodaysRoutines,

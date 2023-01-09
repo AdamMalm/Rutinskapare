@@ -27,7 +27,8 @@ const dayButtons = [
 ];
 
 const CreateRoutineScreen = ({ navigation: { goBack } }) => {
-  const { addNewRoutine, errorAddRoutine, dataAddRoutine } = useGlobalContext();
+  const { addNewRoutine, errorAddRoutine, dataAddRoutine, resetAddRoutine } =
+    useGlobalContext();
 
   const [selectedTimeIndexes, setSelectedTimeIndexes] = useState([]);
   const [selectedFreqIndexes, setSelectedFreqIndexes] = useState([]);
@@ -40,6 +41,7 @@ const CreateRoutineScreen = ({ navigation: { goBack } }) => {
 
   useEffect(() => {
     if (dataAddRoutine) {
+      resetAddRoutine();
       goBack();
     }
   }, [dataAddRoutine]);
