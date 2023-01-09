@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Text } from "react-native";
 import Container from "../components/Container";
+import Error from "../components/Error";
+import Loading from "../components/Loading";
 import PeriodPicker from "../components/PeriodPicker";
 import RoutineStatisticsList from "../components/RoutineCards/RoutineStatisticsList";
 import { useGlobalContext } from "../contexts/GlobalContext";
@@ -38,8 +40,8 @@ const getStats = ({ completionHistory, referenceDate }) => {
 
 const StatisticsScreen = () => {
   const { loadingRoutines, errorRoutines, dataRoutines } = useGlobalContext();
-  if (loadingRoutines) return null;
-  if (errorRoutines) return console.log(errorRoutines);
+  if (loadingRoutines) return <Loading />;
+  if (errorRoutines) return <Error error={errorRoutines} />;
 
   const [activePeriod, setActivePeriod] = useState(0);
   const [routineStatistics, setRoutineStatistics] = useState([]);

@@ -4,12 +4,11 @@ import Button from "../Button";
 import PrioChip from "../PrioChip";
 
 const formatFrequency = (frequency) => {
-  var formattedFrequency = "";
-
   if (frequency.length === 7) {
     return "Varje dag";
   }
 
+  let formattedFrequency = "";
   frequency.forEach((item, index) => {
     if (index === 0) {
       formattedFrequency += item;

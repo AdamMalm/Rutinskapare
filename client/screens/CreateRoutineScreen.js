@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "../components/Container";
 import ButtonGroup from "../components/ButtonGroup";
 import TextField from "../components/TextField";
@@ -26,8 +26,8 @@ const dayButtons = [
   { label: "Söndag", value: "sunday" },
 ];
 
-const CreateRoutineScreen = () => {
-  const { addNewRoutine } = useGlobalContext();
+const CreateRoutineScreen = ({ navigation: { goBack } }) => {
+  const { addNewRoutine, errorAddRoutine, dataAddRoutine } = useGlobalContext();
 
   const [selectedTimeIndexes, setSelectedTimeIndexes] = useState([]);
   const [selectedFreqIndexes, setSelectedFreqIndexes] = useState([]);
@@ -37,6 +37,12 @@ const CreateRoutineScreen = () => {
   const [time, setTime] = useState(new Date());
   const [isPrioritised, setPrioritised] = useState(false);
   const toggleSwitch = () => setPrioritised((previousState) => !previousState);
+
+  useEffect(() => {
+    if (dataAddRoutine) {
+      goBack();
+    }
+  }, [dataAddRoutine]);
 
   function onTimeSelected(event, selectedTime) {
     setTime(selectedTime);
@@ -93,10 +99,7 @@ const CreateRoutineScreen = () => {
           onChange={setDescriptionText}
         />
         <View>
-          <View className="flex flex-row items-center">
-            <Text className="text-xl font-bold color-primary100 mb-6">Tid</Text>
-            <Text className="text-sm color-black mb-6 ml-2">(Frivillig)</Text>
-          </View>
+          <Text className="text-xl font-bold color-primary100 mb-6">Tid</Text>
           <ButtonGroup
             onPress={setSelectedTimeIndexes}
             buttons={timeButtons}
@@ -143,7 +146,8 @@ const CreateRoutineScreen = () => {
           setPrioritised={toggleSwitch}
         />
         {title === "" ||
-        selectedFreqIndexes[0] === null ||
+        selectedFreqIndexes.length === 0 ||
+        selectedTimeIndexes.length === 0 ||
         (selectedFreqIndexes[0] === 1 && selectedDayIndexes.length === 0) ? (
           <>
             <Text className="text-sm text-center mt-10 mb-2">
@@ -153,6 +157,11 @@ const CreateRoutineScreen = () => {
           </>
         ) : (
           <Button onPress={createRoutine} title={"Spara rutin"}></Button>
+        )}
+        {errorAddRoutine && (
+          <Text className="text-sm text-center mt-10 mb-2">
+            Det gick inte att spara rutinen. Försök igen.
+          </Text>
         )}
       </View>
     </Container>
