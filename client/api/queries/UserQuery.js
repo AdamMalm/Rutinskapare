@@ -35,6 +35,7 @@ const GET_USER_ROUTINES = gql`
             nonSpecificTime
             }
             historyOfCompletion {
+              id
               completed
               time
             }

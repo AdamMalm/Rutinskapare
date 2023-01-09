@@ -83,26 +83,20 @@ const GlobalProvider = ({ children }) => {
               },
               onError: (error) => console.log(error),
               onCompleted: (routine) => {
-                getUserRoutines({
+                var routines = [];
+                dataRoutines.user.routines.forEach((element) => {
+                  routines.push(element.id);
+                });
+                if (!routines.includes(routine.createRoutine.id)) {
+                  routines.push(routine.createRoutine.id);
+                }
+                updateUserRoutines({
+                  variables: {
+                    routines: routines,
+                  },
                   onError: (error) => console.log(error),
-                  onCompleted: (userRoutines) => {
-                    var routineObjs = userRoutines.user.routines;
-                    var routines = [];
-                    routineObjs.forEach((element) => {
-                      routines.push(element.id);
-                    });
-                    if (!routines.includes(routine.createRoutine.id)) {
-                      routines.push(routine.createRoutine.id);
-                    }
-                    updateUserRoutines({
-                      variables: {
-                        routines: routines,
-                      },
-                      onError: (error) => console.log(error),
-                      onCompleted: () => {
-                        refetchRoutines();
-                      },
-                    });
+                  onCompleted: () => {
+                    refetchRoutines();
                   },
                 });
               },
@@ -171,12 +165,12 @@ const GlobalProvider = ({ children }) => {
   };
 
   const updateHistoryCompletion = async (routineId, completionBool) => {
-    const routine = await refetchRoutineHistory({ routineId: routineId });
+    let routine = dataRoutines.user.routines.filter(
+      (routine) => routine.id === routineId,
+    )[0];
 
     const latestHistory =
-      routine.data.routine.historyOfCompletion[
-        routine.data.routine.historyOfCompletion.length - 1
-      ];
+      routine.historyOfCompletion[routine.historyOfCompletion.length - 1];
 
     var latestDate = new Date(latestHistory.time);
     var today = new Date();
