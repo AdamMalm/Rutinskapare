@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { GET_USER_ROUTINES } from "../api/queries/UserQuery";
 import {
   ADD_ROUTINE,
   DELETE_ROUTINE,
   UPDATE_ROUTINE_HISTORY,
+  UPDATE_ROUTINE_HISTORY2,
 } from "../api/mutations/RoutineMutations";
 import { UPDATE_USER_ROUTINES } from "../api/mutations/UserMutations";
 import {
@@ -34,8 +35,10 @@ const GlobalProvider = ({ children }) => {
   const [deleteRoutine] = useMutation(DELETE_ROUTINE);
   const [addHistory] = useMutation(ADD_HISTORY);
   const [updateRoutine] = useMutation(UPDATE_ROUTINE_HISTORY);
+  const [updateRoutine2] = useMutation(UPDATE_ROUTINE_HISTORY2);
   const [updateHistory] = useMutation(UPDATE_HISTORY);
   const [deleteHistory] = useMutation(DELETE_HISTORY);
+  const [getUserRoutines] = useLazyQuery(GET_USER_ROUTINES);
 
   const addNewRoutine = ({
     title,
@@ -150,9 +153,7 @@ const GlobalProvider = ({ children }) => {
         onError: (error) => console.log(error),
         onCompleted: (history) => {
           var arr = [];
-          routine.data.routine.historyOfCompletion.forEach((item) =>
-            arr.push(item.id),
-          );
+          routine.historyOfCompletion.forEach((item) => arr.push(item.id));
           arr.push(history.createHistory.id);
           updateRoutine({
             variables: {
@@ -164,6 +165,60 @@ const GlobalProvider = ({ children }) => {
         },
       });
     }
+  };
+
+  //For demo only
+  const addHistoryCompletion = async (routineId, dates) => {
+    getUserRoutines({
+      onCompleted: (userRoutines) => {
+        var routine = userRoutines.user.routines.filter(
+          (routine) => routine.id === routineId,
+        )[0];
+        var b = Boolean(Math.round(Math.random()));
+        addHistory({
+          variables: {
+            completed: b,
+            time: new Date(dates[0]),
+          },
+          onError: (error) => console.log(error),
+          onCompleted: (history) => {
+            console.log("new history");
+            var arr = [];
+            routine.historyOfCompletion.forEach((item) => arr.push(item.id));
+            arr.push(history.createHistory.id);
+
+            var freq = [];
+            routine.frequency.forEach((d) => {
+              if (d === "Måndag") freq.push("monday");
+              if (d === "Tisdag") freq.push("tuesday");
+              if (d === "Onsdag") freq.push("wednesday");
+              if (d === "Torsdag") freq.push("thursday");
+              if (d === "Fredag") freq.push("friday");
+              if (d === "Lördag") freq.push("saturday");
+              if (d === "Söndag") freq.push("sunday");
+            });
+
+            updateRoutine2({
+              variables: {
+                id: routineId,
+                historyOfCompletion: arr,
+                frequency: freq,
+              },
+              onError: (error) => console.log(error),
+              onCompleted: async () => {
+                console.log(dates.length);
+                dates.splice(0, 1);
+                if (dates.length > 0) {
+                  addHistoryCompletion(routineId, dates);
+                } else {
+                  console.log("Done");
+                }
+              },
+            });
+          },
+        });
+      },
+    });
   };
 
   const swedishDaylist = [
@@ -195,6 +250,7 @@ const GlobalProvider = ({ children }) => {
     resetAddRoutine,
     removeRoutine,
     updateHistoryCompletion,
+    addHistoryCompletion,
     getTodaysRoutines,
   };
 

@@ -20,7 +20,7 @@ const formatFrequency = (frequency) => {
 };
 
 const RoutineEdit = ({ routine, ...rest }) => {
-  const { removeRoutine } = useGlobalContext();
+  const { removeRoutine, addHistoryCompletion } = useGlobalContext();
   const time = routine.timeOfDay.specificTime
     ? routine.timeOfDay.specificTime
     : routine.timeOfDay.nonSpecificTime;
@@ -49,7 +49,23 @@ const RoutineEdit = ({ routine, ...rest }) => {
         title="Redigera"
         type="contained"
         className="mt-6"
-        onPress={() => console.log("Redigera call API", +routine.id)}
+        onPress={async () => {
+          var dates = [
+            new Date().setDate(new Date().getDate() - 2),
+            new Date().setDate(new Date().getDate() - 3),
+            new Date().setDate(new Date().getDate() - 5),
+            new Date().setDate(new Date().getDate() - 6),
+            new Date().setDate(new Date().getDate() - 8),
+            new Date().setDate(new Date().getDate() - 10),
+            new Date().setDate(new Date().getDate() - 16),
+            new Date().setDate(new Date().getDate() - 20),
+            new Date().setDate(new Date().getDate() - 260),
+            new Date().setDate(new Date().getDate() - 270),
+            new Date().setDate(new Date().getDate() - 300),
+            new Date().setDate(new Date().getDate() - 330),
+          ];
+          await addHistoryCompletion(routine.id, dates);
+        }}
       />
       <Button
         title="Radera"

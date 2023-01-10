@@ -30,9 +30,9 @@ const GET_USER_ROUTINES = gql`
             frequency
             highPriority
             timeOfDay {
-            isSpecific
-            specificTime
-            nonSpecificTime
+              isSpecific
+              specificTime
+              nonSpecificTime
             }
             historyOfCompletion {
               id

@@ -39,8 +39,8 @@ const UPDATE_ROUTINE_HISTORY = gql`
         description
         frequency
         highPriority
-        timeOfDay {
-          id
+        timeOfDay{
+          isSpecific
           specificTime
           nonSpecificTime
         }
@@ -53,4 +53,31 @@ const UPDATE_ROUTINE_HISTORY = gql`
 }
 `;
 
-export { ADD_ROUTINE, DELETE_ROUTINE, UPDATE_ROUTINE_HISTORY };
+const UPDATE_ROUTINE_HISTORY2 = gql`
+  mutation updateRoutine($id: ID!, $historyOfCompletion: [ID], $frequency: [RoutineTimeUpdate]) {
+    updateRoutine(id: $id, historyOfCompletion: $historyOfCompletion, frequency: $frequency) {
+        id
+        title
+        description
+        frequency
+        highPriority
+        timeOfDay{
+          isSpecific
+          specificTime
+          nonSpecificTime
+        }
+        historyOfCompletion {
+          id
+          completed
+          time
+        }
+    }
+}
+`;
+
+export {
+  ADD_ROUTINE,
+  DELETE_ROUTINE,
+  UPDATE_ROUTINE_HISTORY,
+  UPDATE_ROUTINE_HISTORY2,
+};
