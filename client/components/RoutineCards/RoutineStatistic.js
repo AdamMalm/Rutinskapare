@@ -52,7 +52,10 @@ const RoutineStatistics = ({ routineStatistic, ...rest }) => {
             <>
               <View>
                 <Statistic
-                  value={routineStatistic.stats.percentageComp * 100 + "%"}
+                  value={
+                    Math.round(routineStatistic.stats.percentageComp * 100) +
+                    "%"
+                  }
                   description="Andel utförda"
                 />
               </View>
