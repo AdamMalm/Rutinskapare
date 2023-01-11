@@ -8,7 +8,7 @@ const ADD_ROUTINE = gql`
         description
         frequency
         highPriority
-        timeOfDay{
+        timeOfDay {
           isSpecific
           specificTime
           nonSpecificTime
@@ -40,7 +40,7 @@ const UPDATE_ROUTINE_HISTORY = gql`
         frequency
         highPriority
         timeOfDay {
-          id
+          isSpecific
           specificTime
           nonSpecificTime
         }
