@@ -86,7 +86,6 @@ const updateRoutine = {
           },
         }),
       ),
-      defaultValue: "Måndag",
     },
     highPriority: { type: GraphQLBoolean },
     timeOfDay: { type: TimeTypeInput },
