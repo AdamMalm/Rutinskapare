@@ -14,27 +14,63 @@ const options = [
 ];
 
 const getStats = ({ completionHistory, referenceDate }) => {
-  var history = completionHistory.filter(
+  var historyFiltered = completionHistory.filter(
     (h) => new Date(h.time) > referenceDate,
   );
-  var numCompleted = history.filter((h) => h.completed).length;
 
-  var largestStreak = 0;
-  var streak = 0;
-  history.map((h) => {
-    if (h.completed) {
-      streak++;
-      if (streak > largestStreak) {
-        largestStreak = streak;
+  if (historyFiltered.length != 0) {
+    var firstHistoryToAdd = historyFiltered[0];
+    historyFiltered.forEach((h) => {
+      if (new Date(firstHistoryToAdd.time) > new Date(h.time)) {
+        firstHistoryToAdd = h;
       }
-    } else {
-      streak = 0;
-    }
-  });
+    });
+
+    var history = [firstHistoryToAdd];
+
+    var nextHistoryToAdd = null;
+    historyFiltered.forEach(() => {
+      historyFiltered.forEach((h) => {
+        if (new Date(h.time) > new Date(history[history.length - 1].time)) {
+          if (nextHistoryToAdd == null) {
+            nextHistoryToAdd = h;
+          } else {
+            if (new Date(h.time) < new Date(nextHistoryToAdd.time)) {
+              nextHistoryToAdd = h;
+            }
+          }
+        }
+      });
+
+      if (nextHistoryToAdd != null) {
+        history.push(nextHistoryToAdd);
+        nextHistoryToAdd = null;
+      }
+    });
+    var numCompleted = history.filter((h) => h.completed).length;
+
+    var largestStreak = 0;
+    var streak = 0;
+    history.map((h) => {
+      if (h.completed) {
+        streak++;
+        if (streak > largestStreak) {
+          largestStreak = streak;
+        }
+      } else {
+        streak = 0;
+      }
+    });
+
+    return {
+      percentageComp: numCompleted / history.length,
+      largestStreak: largestStreak,
+    };
+  }
 
   return {
-    percentageComp: Math.round((numCompleted / history.length) * 100) / 100,
-    largestStreak: largestStreak,
+    percentageComp: 0,
+    largestStreak: 0,
   };
 };
 
