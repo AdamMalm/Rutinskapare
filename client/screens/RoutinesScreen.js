@@ -7,6 +7,29 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 
+// Sort routines based on timeOfDay
+const sortRoutines = (a, b) => {
+  const translator = {
+    morgon: "07:00",
+    dag: "13:00",
+    kväll: "17:00",
+  };
+  const aTime = a.timeOfDay.isSpecific
+    ? a.timeOfDay.specificTime
+    : translator[a.timeOfDay.nonSpecificTime.toLowerCase()];
+  const bTime = b.timeOfDay.isSpecific
+    ? b.timeOfDay.specificTime
+    : translator[b.timeOfDay.nonSpecificTime.toLowerCase()];
+
+  if (aTime < bTime) {
+    return -1;
+  } else if (aTime > bTime) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
 const RoutinesScreen = ({ navigation }) => {
   const { loadingRoutines, errorRoutines, getTodaysRoutines } =
     useGlobalContext();
@@ -15,8 +38,9 @@ const RoutinesScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (loadingRoutines || errorRoutines) return;
+    const sortedRoutines = getTodaysRoutines().sort(sortRoutines);
     setCompletedRoutines(
-      getTodaysRoutines().filter(
+      sortedRoutines.filter(
         (routine) =>
           routine.historyOfCompletion[0] &&
           routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
@@ -24,7 +48,7 @@ const RoutinesScreen = ({ navigation }) => {
       ),
     );
     setUncompletedRoutines(
-      getTodaysRoutines().filter(
+      sortedRoutines.filter(
         (routine) =>
           !routine.historyOfCompletion[0] ||
           !routine.historyOfCompletion[routine.historyOfCompletion.length - 1]
