@@ -39,8 +39,8 @@ const UPDATE_ROUTINE_HISTORY = gql`
         description
         frequency
         highPriority
-        timeOfDay {
-          id
+        timeOfDay{
+          isSpecific
           specificTime
           nonSpecificTime
         }

@@ -150,7 +150,7 @@ const GlobalProvider = ({ children }) => {
         onError: (error) => console.log(error),
         onCompleted: (history) => {
           var arr = [];
-          routine.data.routine.historyOfCompletion.forEach((item) =>
+          routine.historyOfCompletion.forEach((item) =>
             arr.push(item.id),
           );
           arr.push(history.createHistory.id);
